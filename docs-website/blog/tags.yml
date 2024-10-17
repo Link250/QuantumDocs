@@ -1,0 +1,9 @@
+particles:
+  label: Particles
+  permalink: /particles
+  description: Quantum Particles
+
+documentation:
+  label: Documentation
+  permalink: /documentation
+  description: Documentation for Projects
