@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs_website=self.webpackChunkdocs_website||[]).push([[32],{8982:e=>{e.exports=JSON.parse('{"tags":[{"label":"Documentation","permalink":"/QuantumDocs/blog/tags/documentation","description":"Documentation for Projects","count":1}]}')}}]);
