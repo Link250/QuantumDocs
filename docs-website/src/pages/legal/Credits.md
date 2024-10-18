@@ -1,3 +1,6 @@
 # Credits
 
-Currently under construction.
+Daniel Baumgartner (Quantum)
+
+
+### Currently under construction.

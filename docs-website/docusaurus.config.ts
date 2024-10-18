@@ -139,12 +139,16 @@ const config: Config = {
           title: 'Legal Notices',
           items: [
             {
-              label: 'Terms and Conditions',
-              to: '/legal/Terms-and-Conditions',
+              label: 'Terms of Service',
+              to: '/legal/ToS',
             },
             {
-              label: 'Contact / Impressum',
-              href: '/legal/Impressum',
+              label: 'Imprint & Contact',
+              href: '/legal/Imprint',
+            },
+            {
+              label: 'DSGVO',
+              href: '/legal/DSGVO',
             },
             {
               label: 'Credits',
@@ -153,7 +157,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Quantum Worlds Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Daniel Baumgartner (Quantum) Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,

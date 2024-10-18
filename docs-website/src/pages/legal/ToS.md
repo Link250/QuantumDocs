@@ -1,3 +1,3 @@
-# Terms and Conditions
+# Terms of Service
 
 Currently under construction.

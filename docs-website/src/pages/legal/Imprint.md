@@ -1,4 +1,7 @@
-# Contact / Impressum
+# Imprint
+
+
+### Contact
 
 Daniel Baumgartner \
 c/o IP-Management #45272 \
