@@ -99,6 +99,18 @@ const config: Config = {
               label: 'Documentation',
               to: '/docs/intro',
             },
+            {
+              label: 'Quantum Particles',
+              to: '/docs/particles',
+            },
+            {
+              label: 'Avatar Setup',
+              to: '/docs/particles/setup-avatar',
+            },
+            {
+              label: 'Troubleshooting',
+              to: '/docs/particles/troubleshooting',
+            },
           ],
         },
         {
@@ -157,7 +169,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Daniel Baumgartner (Quantum) Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Daniel Baumgartner (Quantum), Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
