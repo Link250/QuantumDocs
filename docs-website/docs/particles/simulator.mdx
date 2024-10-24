@@ -1,0 +1,704 @@
+---
+sidebar_position: 4
+# Display h2 to h5 headings
+toc_min_heading_level: 2
+toc_max_heading_level: 3
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Simulator
+
+The Simulator shader is in control of updating the data of all Particles, it allows their position and velocity to react to different forces in real time and can also re-spawn particles under certain conditions.
+
+This shader has to be used on the two Simulator GameObjects in the Quantum Particles prefabs.
+
+If you want to change how the particles behave, interact, spawn or their movement patterns, this is the shader you will be working with.
+
+Currently, every setup has two materials with this shader, one for each hand, this has a technical reason as at least two unique simulators are required, working in tandem, to make the simulation work.  
+
+---
+
+## Base Settings
+
+#### Input Texture
+[`Render Texture`](./textures#render-texture) containing the particle input data.
+
+**DO NOT** remove this texture or edit the settings, unless you know what you are doing, without it the simulation will not work and the particles might not move or show up at all.
+
+**EXCEPTION**: if you want to change the amount of particles, follow this guide: [Change Particle Amount](./setup-avatar#change-particle-amount).
+
+#### Simulator ID
+
+`Integer` containing the simulator ID, typically set to `0` for the left hand and `1` for the right hand.
+
+**DO NOT** change this setting, unless you know what you are doing, otherwise the simulation will not work and the particles might not move or show up at all.
+
+#### Simulator Count
+
+`Integer` containing the number of simulators, typically set to `2` for all current setups.
+
+**DO NOT** change this setting, unless you know what you are doing, otherwise some features might break or will not work as intended.
+
+#### Simulation Speed
+
+`Float` controlling the Speed of the simulation, typically set to `1.0` for normal speed.
+This value will be used as a multiplier for all time based calculations, this means you can change this value to slow down or speed up the simulation.
+Technically negative values will also work, but might have unexpected results.
+
+#### Simulation Scale
+
+`Float` controlling the Scale of the simulation, typically set to `1.0` for normal scale.
+This value will be used as a multiplier for all distance based calculations, this means you can scale up the simulation while keeping the same behavior for the particles.
+This could be used to scale the particles with your avatar if you want the effects to look the same relative to your avatar's size.
+Technically negative values will also work, but might have unexpected results.
+
+#### Speed Loss
+
+`Float` value in the **Range** `[0.0, 1.0]`, used to control how much of the velocity is approximately lost every second of the simulation.
+A value of `1.0` means all speed will be lost over the span of a second, while a value of `0.0` means that speed will never be lost over time, this can have wild effects when forces keep acting on a particle and keep speeding them up, so choose carefully. 
+Due to varying precision with different frame rates this value can slightly fluctuate in different situations and hardware.
+
+#### Speed Limit
+
+`Float` value in the **Range** `[0.001, 1000.0]`, used to control the maximum speed a particle can have.
+This value is used to prevent particles from moving too fast and potentially breaking the simulation or flying out of range.
+After every simulation step the speed of a particle will be clamped to this value if it exceeds it, this will not affect the direction a particle can travel in, but particles traveling at the speed limit will react differently to forces.
+
+---
+
+## Forces
+
+Forces are what makes the particles act dynamically, they can be used to simulate attraction, repulsion, gravity, wind, drag, turbulence and many more effects.
+All forces can be toggled individually and have their own settings to control their strength and behavior.
+
+The following settings are present for all forces:
+#### Affect
+`Toggle` between a force affecting the `Position` or the `Velocity` of a particle.
+When a force is applied to the `Position` of a particle it will always be moved exactly as the force direction and strength dictates and will stop moving if the strength is zero.
+When applied to the `Velocity` of a particle it will keep accelerating towards the force direction while the strength is larger than zero and keeps moving even if the force is no longer present.
+
+Typically a force would act on the Velocity of a particle, but if the speed loss is too large they might not be able to move at all, in this case you could try to apply the force to the position instead.
+Use the `Position` setting with caution if multiple particles will be moved to the same spot they might no longer separate afterwards.
+
+#### Field Strength
+`Float` value in the **Range** `[-100.0, 100.0]`, used as a basic multiplier for the force. Use this value if you want to for example make particles get attracted/repelled stronger/weaker.
+
+#### Field Behavior
+`Toggle` between a `Uniform` or `Dynamic` force field.
+A `Uniform` force field will have the same strength no matter the distance, while a `Dynamic` force field will use the following parameters to have a different strength dependent on distance.
+
+The calculations for the `Dynamic` force field are roughly as follows: `clamp(pow(particleDistance + offset, falloff) * strength, -maxAttraction, maxAttraction)` and a graph showing the [Force over Distance](./simulator#force-over-distance-graph) can be seen at the end of the force field settings.
+
+#### Strength Falloff
+`Float` value in the **Range** `[-100.0, 100.0]`, used as an exponent for the distance based strength falloff.
+This means that for positive values the force will get stronger the further away a particle is from the source, while for negative values the force will get weaker the further away a particle is from the source.
+A value of `0.0` will result in a constant force field strength, which is basically the same as setting the [Field Behavior](./simulator#field-behavior) to `Uniform`.
+
+#### Distance Offset
+`Float` value between `0.0` and `1.0`, used to offset the distance calculation for the force field.
+This means that the force field will act as if the particles are further away from the source than they actually are.
+This is mainly useful if you don't want the flipped field strength behavior for distances below `1.0`.
+
+#### Force Limit
+`Float` value in the **Range** `[0.001, 1000.0]`, used to limit the maximum strength a force can have.
+This is **NOT** related or connected to the speed limit and will only affect the maximum effect this specific force can have on a particle.
+
+#### Force over Distance Graph
+This graph shows the strength of the force field over distance, the x-axis represents the distance from the source and the y-axis represents the strength of the force.
+Both axes will scale dynamically to show the fully possible strength range of the force depending on the force limit.
+
+The red lines represent the current sample point, for which the values will be displayed at the top right of the graph (D=Distance, F=Force).
+By double-clicking on the graph you can set a new sample point, which will update the red lines and corresponding values at the top right.
+
+---
+
+### Attraction
+
+#### Attraction Mode
+
+<Tabs>
+  <TabItem value="ATTR_FORCE_POINT" label="Point" default>
+
+> #### Position
+> `Vector3` containing the position of the point to attract particles to.
+> This position is relative to the simulator GameObject and in local space.
+
+  </TabItem>
+  <TabItem value="ATTR_FORCE_SHAPE" label="Shape">
+
+> #### Attraction Shape
+> [`Render Texture`](./textures#render-texture) or [`Shape Texture`](./textures#shape-texture) containing positions for each individual particle to be attracted to.
+
+  </TabItem>
+  <TabItem value="ATTR_FORCE_SHAPE_OFFSET" label="Shape Offset">
+
+> #### Attraction Shape
+> [`Render Texture`](./textures#render-texture) or [`Shape Texture`](./textures#shape-texture) containing positions for each individual particle to be attracted to.
+>
+> #### Offset
+> `Float` used as an offset for indexing the positions in the shape texture. For example this can be used to attract particles to a different position in the same shape texture.
+
+  </TabItem>
+  <TabItem value="ATTR_FORCE_SHAPE_DYNAMIC_OFFSET" label="Shape Dynamic Offset">
+
+> #### Attraction Shape
+> [`Render Texture`](./textures#render-texture) or [`Shape Texture`](./textures#shape-texture) containing positions for each individual particle to be attracted to.
+>
+> #### Change Speed
+> `Float` used as an offset over time for indexing the positions in the shape texture. Having a value of `1.0` will make the particles be attracted to a different position every second.
+
+  </TabItem>
+  <TabItem value="ATTR_FORCE_SHAPE_INDIVIDUAL_OFFSET" label="Shape Individual Offset">
+
+> #### Attraction Shape
+> [`Render Texture`](./textures#render-texture) or [`Shape Texture`](./textures#shape-texture) containing positions for each individual particle to be attracted to.
+>
+> #### Offset Texture
+> [`Offset Texture`](./textures#offset-texture) containing individual offsets for each particle to be used for indexing the positions in the shape texture.
+> This can be used for example to make the particles follow each other in a very specific structure.
+
+  </TabItem>
+</Tabs>
+
+---
+
+### Directional
+
+#### Shape Mode
+<Tabs>
+  <TabItem value="DIR_FORCE_SHAPE_UNIFORM" label="Uniform" default>
+
+> #### Direction
+> `Vector3` containing the direction of the force.
+> The length of this vector is irrelevant, only the direction will be used, so a vector like `(0.0, 1.0, 0.0)` will have the same effect as `(0.0, 1000.0, 0.0)`.
+> 
+> #### Space
+> `Toggle` between `World` and `Local` space for the direction of the force.
+> In `World` space the direction will be relative to the world, while in `Local` space the direction will be relative to the simulator GameObject.
+
+  </TabItem>
+  <TabItem value="DIR_FORCE_SHAPE_FUNNEL" label="Funnel">
+
+> #### Direction
+> `Vector3` containing the direction of the force.
+> The length of this vector is irrelevant, only the direction will be used, so a vector like `(0.0, 1.0, 0.0)` will have the same effect as `(0.0, 1000.0, 0.0)`.
+> 
+> #### Cone Width
+> `Float` value in the **Range** `[0.0, 100.0]`, used to control the width of the funnel cone.
+> Every particle outside of this cone will be attracted towards the center of the cone, while particles inside the cone will be moved in the direction of the cone.
+> 
+> #### Inward Strength
+> `Float` value in the **Range** `[0.0, 1.0]`, used to control how much the particles will be attracted towards the center of the cone rather than the direction of the cone.
+> 
+> #### Gradient Length
+> `Float` value in the **Range** `[0.0001, 100.0]`, used to control the length of the gradient from particles being attracted directly to the center of the cone to particles being attracted in the direction of the cone.
+> This value is measured from the surface of the cone outwards.
+> 
+> #### Space
+> `Toggle` between `World` and `Local` space for the direction of the force.
+> In `World` space the direction will be relative to the world, while in `Local` space the direction will be relative to the simulator GameObject.
+
+  </TabItem>
+  <TabItem value="DIR_FORCE_SHAPE_COILGUN" label="Coilgun">
+
+> #### Direction
+> `Vector3` containing the direction of the force.
+> The length of this vector is irrelevant, only the direction will be used, so a vector like `(0.0, 1.0, 0.0)` will have the same effect as `(0.0, 1000.0, 0.0)`.
+> 
+> #### Cone Width
+> `Float` value in the **Range** `[0.0, 100.0]`, used to control the width of the coilgun cone.
+> Particles inside this cone will be moved in the direction of the coilgun, for particles outside of this cone the force depends on their position relative to the starting point of the coilgun.
+> Particles in front of the coilgun will be brought back in a circle around the coilgun starting point, while particles behind the coilgun will be pushed towards the coilgun center.
+> 
+> #### Space
+> `Toggle` between `World` and `Local` space for the direction of the force.
+> In `World` space the direction will be relative to the world, while in `Local` space the direction will be relative to the simulator GameObject.
+
+  </TabItem>
+</Tabs>
+
+---
+
+### Rotational
+
+#### Rotation Axis
+`Vector3` containing the axis of rotation for the force.
+The length of this vector is irrelevant, only the direction will be used, so a vector like `(0.0, 1.0, 0.0)` will have the same effect as `(0.0, 1000.0, 0.0)`.
+
+#### Inwards Angle
+`Float` value in the **Range** `[-1.0, 1.0]`, used to control the angle of rotation for the force.
+This is **NOT** the angle of rotation, but instead controls how much the particles will be rotated towards the axis of rotation and the direction (clockwise for positive and counter-clockwise for negative values). A value of `-1.0` or `1.0` will rotate the particles fully towards the axis.
+
+#### Distance Factor
+`Float` value in the **Range** `[0.0, 1.0]`, used to determine how much the distance from the axis of rotation will affect the rotation.
+A value of `0.0` will result in no distance based scaling, while a value of `1.0` will have the distance multiplied with the rotation strength.
+
+#### Distance From
+`Toggle` between the `Point` or the `Axis` of rotation for the distance calculation.
+When set to `Point` the distance will be calculated from the position of the simulator GameObject, while when set to `Axis` the distance will be calculated from the axis of rotation.
+
+#### Space
+`Toggle` between `World` and `Local` space for the direction of the force.
+In `World` space the direction will be relative to the world, while in `Local` space the direction will be relative to the simulator GameObject.
+
+---
+
+### Turbulence
+The Turbulence force can be used to create chaotic movement patterns for the particles and introduce some natural randomness to the simulation.
+
+#### Density
+`Vector3` containing the density of the turbulence.
+This value controls how much the Turbulence will change over a given area, a higher value will result in more chaotic movement, while a lower value will result in more uniform movement.
+
+#### Panning
+`Vector3` containing the panning of the turbulence.
+This value controls how and in what direction the Turbulence will move over time, a higher value will result in faster movement.
+
+#### Time Dependent
+`Checkbox` to toggle if the Turbulence should be time dependent.
+When enabled the Turbulence will change over time, while when disabled the Turbulence will be static.
+
+#### Change Speed
+`Float` used to control how fast the Turbulence will change over time.
+
+#### Space
+`Toggle` between `World` and `Local` space for the direction of the force.
+In `World` space the direction will be relative to the world, while in `Local` space the direction will be relative to the simulator GameObject.
+
+---
+
+### Drag
+The Drag force can be used to drag the particles around using the simulator GameObjects movement.
+
+When combined with a `Uniform` field of strength `1.0` and both positional and rotational drag, this can be used **grab** and move particles around as if they were attached to the simulator GameObject.
+
+#### Drag Mode
+<Tabs>
+  <TabItem value="DRAG_FORCE_POSITION" label="Position" default>
+
+> Only the positional change of the simulator GameObject will be used to drag the particles around.
+
+  </TabItem>
+  <TabItem value="DRAG_FORCE_ROTATION" label="Rotation">
+
+> Only the rotational change of the simulator GameObject will be used to drag the particles around.
+
+  </TabItem>
+  <TabItem value="DRAG_FORCE_BOTH" label="Both">
+
+> Both the positional and rotational change of the simulator GameObject will be used to drag the particles around.
+
+  </TabItem>
+</Tabs>
+
+---
+
+## Particle Spawning
+In the Particle Spawning section you can control how particles are spawned, this includes where they are spawned, how they move and how long they live.
+The Quantum Particles system will always have a fixed amount of particles, so it would be more accurate to say that particles are re-spawned rather than spawned.
+Even after a particle "dies" it will still be part of the simulation, but might be invisible depending on the visualizer settings.
+This is why in the following some values can be set to `Keep`, which means that the value will be kept from the previous particle life cycle.
+
+### Data Sources
+You can either use a `Single Texture` for all particle data or use `Multiple Sources` for different data types like position, velocity, age and life.
+
+#### Shape Texture (`Single Texture` Mode)
+[`Shape Texture`](./textures#shape-texture) or [`Render Texture`](./textures#render-texture) containing all the data for the particles to be spawned.
+
+---
+
+#### Position Source
+All position sources are relative to the simulator GameObject and in local space, except for the Texture which can be toggled between local and world space.
+<Tabs>
+  <TabItem value="SPAWN_POS_KEEP" label="Keep" default>
+
+> Position will be kept from the previous particle life cycle.
+
+  </TabItem>
+  <TabItem value="SPAWN_POS_TEX" label="Texture">
+
+> #### Position Texture
+> [`Render Texture`](./textures#render-texture) or [`Shape Texture`](./textures#shape-texture) containing positions for each individual particle.
+
+  </TabItem>
+  <TabItem value="SPAWN_POS_POINT" label="Point">
+
+> #### Position
+> `Vector3` containing the position to spawn particles at.
+
+  </TabItem>
+  <TabItem value="SPAWN_POS_LINE" label="Line">
+
+> #### Start Position
+> `Vector3` containing the start position of the line to spawn particles on.
+>
+> #### End Position
+> `Vector3` containing the end position of the line to spawn particles on.
+
+  </TabItem>
+  <TabItem value="SPAWN_POS_SIMLINE" label="Sim Line">
+
+> #### Start Position
+> `Vector3` containing the start position of the line to spawn particles on.
+>
+> #### End Position Simulator
+> `Integer` containing the simulator ID of the simulator GameObject that will be used as the end position of the line to spawn particles on.
+
+  </TabItem>
+  <TabItem value="SPAWN_POS_SPHERE" label="Sphere">
+
+> #### Radius
+> `Float` value used to control the radius of the sphere to spawn particles in.
+>
+> #### Position
+> `Vector3` containing the position of the sphere to spawn particles in.
+>
+> #### Rotation
+> `Vector3` containing the rotation of the sphere to spawn particles in.
+> A full rotation can be achieved by values from `0.0` to `1.0` for each axis.
+>
+> #### Scale
+> `Vector3` containing the scale of the sphere to spawn particles in.
+
+  </TabItem>
+  <TabItem value="SPAWN_POS_BOX" label="Box">
+
+> #### Position
+> `Vector3` containing the position of the sphere to spawn particles in.
+>
+> #### Rotation
+> `Vector3` containing the rotation of the sphere to spawn particles in.
+> A full rotation can be achieved by values from `0.0` to `1.0` for each axis.
+>
+> #### Scale
+> `Vector3` containing the scale of the sphere to spawn particles in.
+
+  </TabItem>
+</Tabs>
+
+---
+
+#### Velocity Source
+<Tabs>
+  <TabItem value="SPAWN_VEL_KEEP" label="Keep" default>
+
+> Velocity will be kept from the previous particle life cycle.
+
+  </TabItem>
+  <TabItem value="SPAWN_VEL_TEX" label="Texture">
+
+> #### Velocity Texture
+> [`Render Texture`](./textures#render-texture) or [`Shape Texture`](./textures#shape-texture) containing velocities for each individual particle.
+
+  </TabItem>
+  <TabItem value="SPAWN_VEL_VAL" label="Value">
+
+> #### Velocity
+> `Vector3` containing the velocity to spawn particles with.
+>
+> #### Rotation Space
+> `Toggle` between `World` and `Local` space for the velocity of the particles.
+> In `World` space the velocity will be relative to the world, while in `Local` space the velocity will be relative to the simulator GameObject.
+
+  </TabItem>
+  <TabItem value="SPAWN_VEL_RANGE" label="Range">
+
+> #### Min Velocity
+> `Vector3` containing the minimum velocity to spawn particles with.
+>
+> #### Max Velocity
+> `Vector3` containing the maximum velocity to spawn particles with.
+>
+> #### Separate Axes
+> `Checkbox` to toggle if the values for the velocity should be chosen for each axis separately.
+> This means that for example the X-axis can have it's minimum value while the Y-axis has it's maximum value.
+>
+> #### Rotation Space
+> `Toggle` between `World` and `Local` space for the velocity of the particles.
+> In `World` space the velocity will be relative to the world, while in `Local` space the velocity will be relative to the simulator GameObject.
+
+  </TabItem>
+  <TabItem value="SPAWN_VEL_SPHERE" label="Sphere">
+
+> #### Speed
+> `Float` value giving the speed of the particles to spawn.
+> The direction of the velocity will be random and uniform on the surface of a sphere with the given speed.
+> If the distribution of the speed is not uniform enough you can enable the `Better Quality Noise` setting.
+
+  </TabItem>
+  <TabItem value="SPAWN_VEL_POSITION" label="Position">
+
+> #### Speed
+> `Float` value giving the speed of the particles to spawn.
+> The direction of the velocity will be from the position of the simulator GameObject to the position of the particle.
+>
+> #### Central Distance Factor
+> `Float` value which will be multiplied with the distance from the simulator GameObject to the particle.
+> This can be used to control how much the speed will be affected by the distance.
+> Negative values will result in the particles moving towards the simulator GameObject.
+
+  </TabItem>
+</Tabs>
+
+---
+
+#### Starting Age Source
+<Tabs>
+  <TabItem value="SPAWN_AGE_KEEP" label="Keep" default>
+
+> Age will be kept from the previous particle life cycle.
+
+  </TabItem>
+  <TabItem value="SPAWN_AGE_TEX" label="Texture">
+
+> #### Starting Age Texture
+> [`Render Texture`](./textures#render-texture) or [`Shape Texture`](./textures#shape-texture) containing starting ages for each individual particle.
+
+  </TabItem>
+  <TabItem value="SPAWN_AGE_VAL" label="Value">
+
+> #### Starting Age
+> `Float` value in the **Range** `[0.0, 1000.0]` giving the starting age of the particles.
+
+  </TabItem>
+  <TabItem value="SPAWN_AGE_RANGE" label="Range">
+
+> #### Min Starting Age
+> `Float` value in the **Range** `[0.0, 1000.0]` giving the minimum starting age of the particles.
+>
+> #### Max Starting Age
+> `Float` value in the **Range** `[0.0, 1000.0]` giving the maximum starting age of the particles.
+
+  </TabItem>
+</Tabs>
+
+---
+
+#### Lifetime Source
+<Tabs>
+  <TabItem value="SPAWN_LIFE_KEEP" label="Keep" default>
+
+> Lifetime will be kept from the previous particle life cycle.
+
+  </TabItem>
+  <TabItem value="SPAWN_LIFE_TEX" label="Texture">
+
+> #### Lifetime Texture
+> [`Render Texture`](./textures#render-texture) or [`Shape Texture`](./textures#shape-texture) containing lifetimes for each individual particle.
+
+  </TabItem>
+  <TabItem value="SPAWN_LIFE_VAL" label="Value">
+
+> #### Lifetime
+> `Float` value in the **Range** `[0.001, 1000.0]` giving the lifetime of the particles.
+
+  </TabItem>
+  <TabItem value="SPAWN_LIFE_RANGE" label="Range">
+
+> #### Min Lifetime
+> `Float` value in the **Range** `[0.001, 1000.0]` giving the minimum lifetime of the particles.
+>
+> #### Max Lifetime
+> `Float` value in the **Range** `[0.001, 1000.0]` giving the maximum lifetime of the particles.
+
+  </TabItem>
+</Tabs>
+
+---
+
+#### Particle Re-Spawn Check
+<Tabs>
+  <TabItem value="SPAWN_RATE_ALL" label="All" default>
+
+> All particles will be checked every frame.
+
+  </TabItem>
+  <TabItem value="SPAWN_RATE_PARTIAL" label="Partial">
+
+> Only a fraction of the particles will be checked every frame.
+>
+> #### Spawn Rate
+> `Float` value giving the fraction of particles to be checked every second.
+>
+> #### Time Error Compensation
+> `Float` value in the **Range** `[0.0, 1.0]` used to compensate for timing errors.
+> This value is used to compensate for the small fluctuations in frame rate and time passed between frames.
+> A value of `0.5` will result in 50% more particles being checked every second.
+
+  </TabItem>
+</Tabs>
+
+### Respawn Conditions
+<Tabs>
+  <TabItem value="SPAWN_RESPAWN_ALWAYS" label="Always" default>
+
+> Particles will always be re-spawned, no matter the state they are in.
+
+  </TabItem>
+  <TabItem value="SPAWN_RESPAWN_CONDITIONS" label="Conditions">
+
+> Particles will only be re-spawned if they meet the following conditions.
+> Each type of data like position, velocity, age and lifetime can have a different condition to be met.
+
+  </TabItem>
+</Tabs>
+
+#### Position Conditions
+<Tabs>
+  <TabItem value="SPAWN_CONDITION_POS_OFF" label="Off" default>
+
+> The position of the particles will not be checked.
+
+  </TabItem>
+  <TabItem value="SPAWN_CONDITION_POS_RANGE" label="Range">
+
+> #### Position Below
+> `Vector3` containing the position below which the particles will be re-spawned.
+>
+> #### Position Above
+> `Vector3` containing the position above which the particles will be re-spawned.
+
+  </TabItem>
+  <TabItem value="SPAWN_CONDITION_POS_DIST_SMALLER" label="Distance Smaller">
+
+> #### Distance Below
+> `Float` value used to control the distance below which the particles will be re-spawned.
+
+  </TabItem>
+  <TabItem value="SPAWN_CONDITION_POS_DIST_LARGER" label="Distance Larger">
+
+> #### Distance Above
+> `Float` value used to control the distance above which the particles will be re-spawned.
+
+  </TabItem>
+  <TabItem value="SPAWN_CONDITION_POS_DIST_RANGE" label="Distance Range">
+
+> #### Distance Below
+> `Float` value used to control the distance below which the particles will be re-spawned.
+>
+> #### Distance Above
+> `Float` value used to control the distance above which the particles will be re-spawned.
+
+  </TabItem>
+</Tabs>
+
+#### Velocity Conditions
+<Tabs>
+  <TabItem value="SPAWN_CONDITION_VEL_OFF" label="Off" default>
+
+> The velocity of the particles will not be checked.
+
+  </TabItem>
+  <TabItem value="SPAWN_CONDITION_VEL_SMALLER" label="Smaller">
+
+> #### Velocity Below
+> `Float` value used to control the velocity below which the particles will be re-spawned.
+
+  </TabItem>
+  <TabItem value="SPAWN_CONDITION_VEL_LARGER" label="Larger">
+
+> #### Velocity Above
+> `Float` value used to control the velocity above which the particles will be re-spawned.
+
+  </TabItem>
+  <TabItem value="SPAWN_CONDITION_VEL_RANGE" label="Range">
+
+> #### Velocity Below
+> `Float` value used to control the velocity below which the particles will be re-spawned.
+>
+> #### Velocity Above
+> `Float` value used to control the velocity above which the particles will be re-spawned.
+
+  </TabItem>
+</Tabs>
+
+#### Age Conditions
+<Tabs>
+  <TabItem value="SPAWN_CONDITION_AGE_OFF" label="Off" default>
+
+> The age of the particles will not be checked.
+
+  </TabItem>
+  <TabItem value="SPAWN_CONDITION_AGE_LARGER" label="Larger">
+
+> #### Age Above Lifetime
+> `Float` value used to control the age above which the particles will be re-spawned.
+> This value is relative to the lifetime of the particles, this means that a value of `1.0` will be the full lifetime of the particles.
+
+  </TabItem>
+</Tabs>
+
+#### Infinite Lifetime
+`Checkbox` to toggle if particles with an infinite lifetime should be re-spawned.
+This might be necessary when particles have never been re-spawned before.
+
+---
+
+#### Sampling Offset
+This setting controls how the data for the particles is sampled from the input textures.
+
+<Tabs>
+  <TabItem value="SPAWN_OFFSET_NONE" label="None" default>
+
+> No offset will be used for sampling the data.
+
+  </TabItem>
+  <TabItem value="SPAWN_OFFSET_CONSTANT" label="Constant">
+
+> #### Constant Offset
+> `Float` value used as an offset for sampling the data.
+
+  </TabItem>
+  <TabItem value="SPAWN_OFFSET_DYNAMIC" label="Dynamic">
+
+> #### Dynamic Offset
+> `Float` value determining how fast the offset will change over time.
+
+  </TabItem>
+  <TabItem value="SPAWN_OFFSET_INDIVIDUAL" label="Individual">
+
+> #### Offset Texture
+> [`Offset Texture`](./textures#offset-texture) containing individual offsets for each particle to be used for sampling the data.
+
+  </TabItem>
+</Tabs>
+
+#### Inherit Movement
+<Tabs>
+  <TabItem value="SPAWN_ADD_NONE" label="None" default>
+
+> Particles will not inherit any movement from the simulator GameObject.
+
+  </TabItem>
+  <TabItem value="SPAWN_ADD_POSITION" label="Position">
+
+> Particles will inherit the positional movement from the simulator GameObject.
+
+  </TabItem>
+  <TabItem value="SPAWN_ADD_ROTATION" label="Rotation">
+
+> Particles will inherit the rotational movement from the simulator GameObject.
+
+  </TabItem>
+  <TabItem value="SPAWN_ADD_BOTH" label="Both">
+
+> Particles will inherit both the positional and rotational movement from the simulator GameObject.
+
+  </TabItem>
+</Tabs>
+
+---
+
+#### Random Seed
+`Float` value used as a seed for the random number generator.
+This value will only affect the random number generator for the particle spawning.
+
+#### Better Quality Noise
+`Checkbox` to toggle if the noise used for the particle spawning should be of better quality.
+When enabled the noise will be of better quality, but will be slightly slower to calculate.
+
+#### Time Dependent Noise
+`Checkbox` to toggle if the noise used for the particle spawning should be time dependent.
+When enabled the noise will change over time, while when disabled the noise will stay the same.

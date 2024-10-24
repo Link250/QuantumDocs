@@ -39,7 +39,7 @@ By default, the reference points for the particles are attached to your left and
     - You can also move the Left/Right Hand GameObjects to any other bone you prefer, like the Left/Right Index Finger.
 5. Reset the **Transform** components of the GameObjects from the previous step by clicking the settings cog in the top right of the Transform component in your Inspector and clicking **Reset**
 6. (Optional) Position the Left/Right Hand Anchors to your preference.
-7. Select `Desktop Anchor` under `[Neck] Proxy` and position it to your preference (typically at eye/viewpoint level and in front of you at about a distance equal to your armspan)
+7. Select `Desktop Anchor` under `[Neck] Proxy` and position it to your preference (typically at eye/viewpoint level and in front of you at about a distance equal to your arm-span)
 
 ### Second Part - AV3 Setup
 It is advised to use something like [AV3Manager](https://github.com/VRLabs/Avatars-3.0-Manager) to merge the `Quantum Particles Parameters` and `Quantum Particles FX` Animator Controller found at `Quantum/Particles/Resources/Expressions` with your Avatars Animator Controller and Parameters.
@@ -50,3 +50,21 @@ Tutorial Video coming soon!
 ## Basic Setup
 If you want to create your own Setup from scratch or plan to use the particles in a different project, like a VRChat World, the package contains a prefab simply called `QuantumParticles` which contains the basic setup for the particles.
 This Prefab contains no animations or additional components or scripts, only what is strictly necessary to get the particles working.
+
+
+## Other Guides
+
+### Change Particle Amount
+Keep in mind that for technical reasons, the amount of particles cannot be adjusted freely.
+This is a result of the particle data being stored in a texture, and the amount of particles being determined by the area of this texture.
+The amount of particles is given by the formula `Particle Amount = Resolution X * Resolution Y / 2`.
+Ideally, the resolution should be a power of 2, like 256x256, 512x512, 1024x1024, etc.
+Other resolutions might work, but could lead to unexpected results.
+
+To change the Particle Amount, you will need to adjust several things in the Quantum Particles setup.
+1. In the `Particles` GameObject (usually located inside the `Quantum Particles` GameObject), change the mesh to one with the desired amount of vertices.
+    - Appropriate meshes can be found in the `Quantum/Particles/Resources/Meshes` folder. Or generate your own mesh by going to `Tools > Quantum > Particles > Particle Mesh`.
+2. Replace the [Render Textures](./textures#render-texture) used in the Cameras and the Simulator Materials.
+    - The [Render Textures](./textures#render-texture) can be found in the `Camera` Components, inside the slot `Target Texture`, and for the Simulator Materials under `Base Settings > Input Texture`.
+    - Keep in mind that the Material needs a [Render Textures](./textures#render-texture) of the **SAME** side (Left/Right) as the Simulator it is used for, while the Camera needs the **OPPOSITE** side as the Simulator it is inside.
+    - Appropriate Render Textures can be found in the `Quantum/Particles/Resources/RenderTextures` folder.

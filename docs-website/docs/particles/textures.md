@@ -4,7 +4,12 @@ sidebar_position: 6
 
 # Special Textures
 
-Currently under construction.
+## Render Texture
 
-You can get the latest updates on the [Discord Server](https://discord.gg/Va5VPev).
+## Shape Texture
 
+## Offset Texture
+
+:::note
+This Page is Currently still under construction.
+:::
