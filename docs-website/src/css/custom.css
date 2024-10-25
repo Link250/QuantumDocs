@@ -28,3 +28,16 @@
   --ifm-color-primary-lightest: #47D4FF;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+/* Custom class for the box */
+.box {
+  border-left: 3px solid var(--ifm-color-primary);
+  padding: 1rem;
+  margin: 0;
+}
+
+.tabs-container .margin-top--md {
+  border-left: 3px solid var(--ifm-color-primary);
+  padding: 1rem;
+  margin-top: 0 !important;
+}

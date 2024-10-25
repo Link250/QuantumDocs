@@ -1,0 +1,343 @@
+---
+sidebar_position: 5
+toc_min_heading_level: 2
+toc_max_heading_level: 3
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Visualizer
+
+## Base Settings
+
+#### Input Texture
+[Render Texture](./textures#render-texture) or [Shape Texture](./textures#shape-texture) containing the particle input data.
+
+If this visualizer is used for simulated particles, **DO NOT** remove this texture or edit the settings, unless you know what you are doing, without it the particles might not move or show up at all.
+
+**EXCEPTION**: if you want to change the amount of particles, follow this guide: [Change Particle Amount](./setup-avatar#change-particle-amount).
+
+If you want to use static particles (no movement or interaction) you can also directly use a [Shape Texture](./textures#shape-texture) here, just make sure the Resolution of the Texture matches the mesh you are using for optimal results.
+
+#### Simulator Count
+
+`Integer` containing the number of simulators, typically set to `2` for all current setups.
+This value will be used to skip the first `n` pixels in the input texture as their data is used for the simulators, otherwise you would see static particles at the position of the simulators.
+
+#### Simulation Speed
+
+`Float` controlling the Speed of the simulation, typically set to `1.0` for normal speed.
+Ideally you should have the same value here as in the Simulators, so that all time based visual effects are in sync with the actual simulation speed.
+Technically negative values will also work, but might have unexpected results.
+
+#### Simulation Scale
+
+`Float` controlling the Scale of the simulation, typically set to `1.0` for normal scale.
+Ideally you should have the same value here as in the Simulators, so that all distance based visual effects are in sync with the actual simulation scale.
+This could be used to scale the particles with your avatar if you want the effects to look the same relative to your avatar's size.
+Technically negative values will also work, but might have unexpected results.
+
+#### Random Seed
+`Float` controlling the Seed for the random number generator. This value is used to generate random numbers for the visual effects, changing this value will change their outcome.
+
+## Render Settings
+
+#### BlendOp
+`Dropdown` controlling the Blend Operation used for the particles.
+Possible values are: `Add`, `Subtract`, `ReverseSubtract`, `Min`, `Max`.
+For more information on what these values do, check the Unity Documentation on [Blend Operations](https://docs.unity3d.com/Manual/SL-BlendOp.html).
+
+#### SrcBlend
+`Dropdown` controlling the Source Blend Factor used for the particles.
+Possible values are: `Zero`, `One`, `DstColor`, `SrcColor`, `OneMinusDstColor`, `SrcAlpha`, `OneMinusSrcColor`, `DstAlpha`, `OneMinusDstAlpha`, `SrcAlphaSaturate`, `OneMinusSrcAlpha`.
+For more information on what these values do, check the Unity Documentation on [Blending](https://docs.unity3d.com/Manual/SL-Blend.html).
+
+#### DstBlend
+`Dropdown` controlling the Destination Blend Factor used for the particles.
+Possible values are: `Zero`, `One`, `DstColor`, `SrcColor`, `OneMinusDstColor`, `SrcAlpha`, `OneMinusSrcColor`, `DstAlpha`, `OneMinusDstAlpha`, `SrcAlphaSaturate`, `OneMinusSrcAlpha`.
+For more information on what these values do, check the Unity Documentation on [Blending](https://docs.unity3d.com/Manual/SL-Blend.html).
+
+#### Depth Test
+`Dropdown` controlling the Depth Test used for the particles.
+Possible values are: `Disabled`, `Never`, `Less`, `Equal`, `LessEqual`, `Greater`, `NotEqual`, `GreaterEqual`, `Always`.
+For more information on what these values do, check the Unity Documentation on [Depth Testing](https://docs.unity3d.com/Manual/SL-ZTest.html).
+
+#### Depth Write
+`Toggle` controlling if the particles should write to the Depth Buffer.
+This is usually off for transparent particles, but if you want to have them opaque you can turn this on.
+For more information on what this does, check the Unity Documentation on [Depth Writing](https://docs.unity3d.com/Manual/SL-ZWrite.html).
+
+#### Render After Lifetime
+`Toggle` controlling if the particles should be rendered after their lifetime has ended.
+If you have a setup where particles are never re-spawned, you should turn this on to make sure they are still visible after their lifetime has ended.
+
+#### Render Queue
+`Dropdown` or `Integer` controlling the Render Queue of the particles.
+This value is used to determine the order in which the particles are rendered relative to other Meshes.
+For more information on what this does, check the Unity Documentation on [Render Queues](https://docs.unity3d.com/Manual/built-in-rendering-order.html).
+
+## Shape & Size Settings
+
+#### Particle Shape
+<Tabs>
+  <TabItem value="SHAPE_MODE_POINT" label="Point" default>
+    Particles are rendered as single pixel no matter the distance.
+    This is the most performance friendly mode, but has no other settings.
+  </TabItem>
+  <TabItem value="SHAPE_MODE_LINE" label="Line" default>
+
+    Particles are rendered as a line with a width of one pixel.
+
+    #### Line Length Limit
+    `Float` value in the **Range** `[0.0, 100.0]` controlling the maximum length of the line.
+
+    #### Draw Partial Lines
+    `Checkbox` controlling if the line should still be partially drawn if it is longer than the limit.
+    If this is off, the line will not be drawn at all if it is longer than the limit.
+
+    #### Invert Direction
+    `Checkbox` controlling if the line should be drawn in the opposite direction.
+
+    #### Line Type
+<Tabs>
+  <TabItem value="SHAPE_LINE_TYPE_ABSOLUTE" label="Absolute" default>
+
+  All particle lines will be connected to the same given point.
+
+  #### Line End Pos
+  `Vector3` value controlling the end position of the line.
+
+  #### Space
+  `Toggle` between `World` and `Local` space for the end position.
+
+  </TabItem>
+  <TabItem value="SHAPE_LINE_TYPE_RELATIVE" label="Relative">
+
+  All particle lines will be connected to a point relative to each particles position.
+
+  #### Line End Pos
+  `Vector3` value controlling the end position of the line relative to the particles position.
+
+  #### Space
+  `Toggle` between `World` and `Local` space for the end position.
+
+  </TabItem>
+  <TabItem value="SHAPE_LINE_TYPE_DIRECTION" label="Direction">
+
+  Particles will have a line in the direction they are moving.
+
+  #### Line Length
+  `Float` value controlling the length of the line.
+  This will be used as a multiplier for the velocity of the particle or the exact length if normalization is on.
+
+  #### Normalize
+  `Checkbox` controlling if the velocity of the line should be normalized, this means the speed of the particle will not affect the length of the line.
+
+  </TabItem>
+  <TabItem value="SHAPE_LINE_TYPE_PARTICLE" label="Particle">
+
+  Particles will have a line to another particle.
+
+  #### Offset Mode
+<Tabs>
+  <TabItem value="SHAPE_LINE_OFFSET_STATIC" label="Static" default>
+
+  The Index of the particle to connect to will be offset by a static value.
+
+  #### Offset
+  `Float` value controlling the offset of the particle index.
+
+  </TabItem>
+  <TabItem value="SHAPE_LINE_OFFSET_DYNAMIC" label="Dynamic">
+
+  The Index of the particle to connect to will change over time.
+
+  #### Offset Change Speed
+  `Float` value controlling how much the index should increase per second.
+
+  </TabItem>
+  <TabItem value="SHAPE_LINE_OFFSET_TEXTURE" label="Texture">
+
+  The Index of the particle to connect to will be read from an [`Offset Texture`](./textures#offset-texture).
+
+  #### Offset Texture
+  [`Offset Texture`](./textures#offset-texture) containing the offset data for each individual particle.
+
+  </TabItem>
+  <TabItem value="SHAPE_LINE_OFFSET_RANDOM" label="Random">
+
+  The Index of the particle to connect to will randomly change over time.
+
+  #### Offset Change Speed
+  `Float` value controlling how much the index should change per second.
+
+  </TabItem>
+</Tabs>
+  </TabItem>
+</Tabs>
+  </TabItem>
+  <TabItem value="SHAPE_MODE_TRIANGLE" label="Triangle">
+
+  </TabItem>
+  <TabItem value="SHAPE_MODE_SQUARE" label="Square">
+
+  </TabItem>
+  <TabItem value="SHAPE_MODE_CIRCLE" label="Circle">
+
+  </TabItem>
+</Tabs>
+
+<Tabs>
+  <TabItem value="SHAPE_SIZE_CONSTANT" label="Constant" default>
+
+  </TabItem>
+  <TabItem value="SHAPE_SIZE_FLICKER" label="Flicker">
+
+  </TabItem>
+  <TabItem value="SHAPE_SIZE_FLICKER_GRAD" label="Flicker Gradient">
+
+  </TabItem>
+  <TabItem value="SHAPE_SIZE_LIFETIME" label="Lifetime">
+
+  </TabItem>
+  <TabItem value="SHAPE_SIZE_LIFETIME_GRAD" label="Lifetime Gradient">
+
+  </TabItem>
+  <TabItem value="SHAPE_SIZE_VELOCITY" label="Velocity">
+
+  </TabItem>
+  <TabItem value="SHAPE_SIZE_VELOCITY_GRAD" label="Velocity Gradient">
+
+  </TabItem>
+</Tabs>
+
+
+## Color Settings
+
+<Tabs>
+  <TabItem value="COLOR_MODE_STATIC" label="Static" default>
+
+  </TabItem>
+  <TabItem value="COLOR_MODE_PULSE" label="Pulse">
+
+  </TabItem>
+  <TabItem value="COLOR_MODE_GRADIENT" label="Gradient">
+
+  </TabItem>
+  <TabItem value="COLOR_MODE_DIRECTION" label="Direction">
+
+  </TabItem>
+  <TabItem value="COLOR_MODE_VELOCITY" label="Velocity">
+
+  </TabItem>
+  <TabItem value="COLOR_MODE_LIFETIME" label="Lifetime">
+
+  </TabItem>
+  <TabItem value="COLOR_MODE_TEXTURE" label="Texture">
+
+  </TabItem>
+</Tabs>
+
+<Tabs>
+  <TabItem value="COLOR_FALLOFF_NONE" label="None" default>
+
+  </TabItem>
+  <TabItem value="COLOR_FALLOFF_ROOT" label="Square Root">
+
+  </TabItem>
+  <TabItem value="COLOR_FALLOFF_HALFSINE" label="Half Sine">
+
+  </TabItem>
+  <TabItem value="COLOR_FALLOFF_LINEAR" label="Linear">
+
+  </TabItem>
+  <TabItem value="COLOR_FALLOFF_SINE" label="Sine">
+
+  </TabItem>
+  <TabItem value="COLOR_FALLOFF_SQUARED" label="Squared">
+
+  </TabItem>
+  <TabItem value="COLOR_FALLOFF_GRADIENT" label="Gradient">
+
+  </TabItem>
+</Tabs>
+
+            None,
+            SquareRoot,
+            HalfSine,
+            Linear,
+            Sine,
+            Squared,
+            Gradient
+
+## Texture Settings
+
+<tabs>
+  <tab-item value="COLOR_ANIM_TEX_OFF" label="Off" default>
+
+  </tab-item>
+  <tab-item value="COLOR_ANIM_TEX_ON" label="On">
+
+  </tab-item>
+  <tab-item value="COLOR_ANIM_TEX_SYNCHED" label="Synched">
+
+  </tab-item>
+  <tab-item value="COLOR_ANIM_TEX_LIFETIME" label="From Lifetime">
+
+  </tab-item>
+</tabs>
+
+## Rotation Settings
+
+<Tabs>
+  <TabItem value="ROT_SPACE_WORLD" label="World" default>
+
+  </TabItem>
+  <TabItem value="ROT_SPACE_LOCAL" label="Local">
+
+  </TabItem>
+  <TabItem value="ROT_SPACE_SCREEN" label="Screen">
+
+  </TabItem>
+  <TabItem value="ROT_SPACE_DIR" label="Direction">
+
+  </TabItem>
+</Tabs>
+
+<Tabs>
+  <TabItem value="ROT_BASE_SINGLE" label="Single Value" default>
+
+  </TabItem>
+  <TabItem value="ROT_BASE_RANGE" label="Range">
+
+  </TabItem>
+</Tabs>
+
+<Tabs>
+  <TabItem value="ROT_ANIM_NONE" label="No Animation" default>
+
+  </TabItem>
+  <TabItem value="ROT_OVER_TIME_SINGLE" label="Over Time">
+
+  </TabItem>
+  <TabItem value="ROT_OVER_TIME_RANGE" label="Over Time with Range">
+
+  </TabItem>
+  <TabItem value="ROT_OSCILLATE_RANGE" label="Oscillate Range">
+
+  </TabItem>
+  <TabItem value="ROT_LOOP_CURVE" label="Loop Curve">
+
+  </TabItem>
+  <TabItem value="ROT_LIFETIME_RANGE" label="Lifetime Range">
+
+  </TabItem>
+  <TabItem value="ROT_LIFETIME_CURVE" label="Lifetime Curve">
+
+  </TabItem>
+</Tabs>
+
+:::note
+This Page is Currently still under construction.
+:::
