@@ -10,6 +10,10 @@ sidebar_position: 6
 
 ## Offset Texture
 
+## Gradient Texture
+
+## Curve Texture
+
 :::note
 This Page is Currently still under construction.
 :::

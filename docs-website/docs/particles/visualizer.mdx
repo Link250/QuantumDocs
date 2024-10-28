@@ -43,6 +43,14 @@ Technically negative values will also work, but might have unexpected results.
 
 ## Render Settings
 
+The Render Settings control how the particles are rendered and how they interact with the scene.
+Depending on the kind of look you want to achieve, here are some possible settings:
+| Render Type        | Blend Op | SrcBlend  | DstBlend         | Depth Write |
+|--------------------|----------|-----------|------------------|-------------|
+| Glowing (Default)  | Add      | SrcAlpha  | One              | Off         |
+| Transparent        | Add      | SrcAlpha  | OneMinusSrcAlpha | Off         |
+| Opaque             | Add      | One       | Zero             | On          |
+
 #### BlendOp
 `Dropdown` controlling the Blend Operation used for the particles.
 Possible values are: `Add`, `Subtract`, `ReverseSubtract`, `Min`, `Max`.
@@ -177,37 +185,140 @@ For more information on what this does, check the Unity Documentation on [Render
   </TabItem>
 </Tabs>
   </TabItem>
-  <TabItem value="SHAPE_MODE_TRIANGLE" label="Triangle">
+  <TabItem value="SHAPE_MODE_2D_SHAPE" label="Triangle / Square / Circle">
 
-  </TabItem>
-  <TabItem value="SHAPE_MODE_SQUARE" label="Square">
+Particles are rendered as a 2D shape (Triangle / Square / Circle) with a width and height.
+All 2D shapes have the same settings.
 
-  </TabItem>
-  <TabItem value="SHAPE_MODE_CIRCLE" label="Circle">
-
-  </TabItem>
-</Tabs>
+#### 2D Size Values
+`Checkbox` controlling if the width and height can be set individually.
+Using this will turn all size values into 2D values.
+If this is off, the width and height will always be the same.
 
 <Tabs>
   <TabItem value="SHAPE_SIZE_CONSTANT" label="Constant" default>
 
+All particles will always have the same size.
+
+#### Particle Size
+`Float` value in the **Range** `[0.0, 1.0]` or `Vector2` controlling the size of the particles.
+
   </TabItem>
   <TabItem value="SHAPE_SIZE_FLICKER" label="Flicker">
 
+Particles will flicker between two sizes over time.
+
+#### Min Size
+`Float` value in the **Range** `[0.0, 1.0]` or `Vector2` controlling the minimum size of the particles.
+
+#### Max Size
+`Float` value in the **Range** `[0.0, 1.0]` or `Vector2` controlling the maximum size of the particles.
+
+#### Flicker Length
+`Float` value in the **Range** `[0.001, 1000.0]` controlling the time it takes to go through a full cycle from min to max and back.
+
+#### Synchronize
+`Checkbox` controlling if the flicker should be synchronized for all particles or if they should flicker independently.
+
   </TabItem>
-  <TabItem value="SHAPE_SIZE_FLICKER_GRAD" label="Flicker Gradient">
+  <TabItem value="SHAPE_SIZE_FLICKER_GRAD" label="Flicker Curve">
+
+Particles will flicker between two sizes over time, with the size being controlled by a curve texture.
+
+#### Size over Time
+[`Curve Texture`](./textures#curve-texture) `(R or RG Channel)` controlling the size of the particles over time.
+The values from `0.0` to `1.0` will be mapped to the min and max size specified below.
+
+#### Min Size
+`Float` value in the **Range** `[0.0, 1.0]` or `Vector2` controlling the minimum size of the particles.
+
+#### Max Size
+`Float` value in the **Range** `[0.0, 1.0]` or `Vector2` controlling the maximum size of the particles.
+
+#### Flicker Length
+`Float` value in the **Range** `[0.001, 1000.0]` controlling the time it takes to go through a full cycle through the curve texture.
+
+#### Synchronize
+`Checkbox` controlling if the flicker should be synchronized for all particles or if they should flicker independently.
 
   </TabItem>
   <TabItem value="SHAPE_SIZE_LIFETIME" label="Lifetime">
 
+Particles will change size over their lifetime.
+
+#### Life Start Size
+`Float` value in the **Range** `[0.0, 1.0]` or `Vector2` controlling the size of the particles at the start of their lifetime.
+
+#### Life End Size
+`Float` value in the **Range** `[0.0, 1.0]` or `Vector2` controlling the size of the particles at the end of their lifetime.
+
+#### Clamp Lifetime
+`Checkbox` controlling if the lifetime should be clamped to always be in the range `[0.0, 1.0]`.
+
   </TabItem>
-  <TabItem value="SHAPE_SIZE_LIFETIME_GRAD" label="Lifetime Gradient">
+  <TabItem value="SHAPE_SIZE_LIFETIME_GRAD" label="Lifetime Curve">
+
+Particles will change size over their lifetime, with the size being controlled by a curve texture.
+
+#### Size over Lifetime
+[`Curve Texture`](./textures#curve-texture) `(R or RG Channel)` controlling the size of the particles over their lifetime.
+The values from `0.0` to `1.0` will be mapped to the min and max size specified below.
+
+#### Min Size
+`Float` value in the **Range** `[0.0, 1.0]` or `Vector2` controlling the minimum size of the particles.
+
+#### Max Size
+`Float` value in the **Range** `[0.0, 1.0]` or `Vector2` controlling the maximum size of the particles.
+
+#### Clamp Lifetime
+`Checkbox` controlling if the lifetime should be clamped to always be in the range `[0.0, 1.0]`.
 
   </TabItem>
   <TabItem value="SHAPE_SIZE_VELOCITY" label="Velocity">
 
+Particles will change size based on their velocity.
+
+#### Low Speed Size
+`Float` value in the **Range** `[0.0, 1.0]` or `Vector2` controlling the size of the particles at zero speed.
+
+#### High Speed Size
+`Float` value in the **Range** `[0.0, 1.0]` or `Vector2` controlling the size of the particles at the maximum speed specified below.
+
+#### Max Speed
+`Float` value in the **Range** `[0.001, 1000.0]` used as the maximum speed for the velocity based size calculation.
+This value does not affect the actual speed of the particles or has to be the same as the speed limit in the simulators, it is only used as a reference for the size calculation.
+
+#### Clamp Speed
+`Checkbox` controlling if the speed should be clamped to always be in the range `[0.0, MaxSpeed]`.
+
   </TabItem>
-  <TabItem value="SHAPE_SIZE_VELOCITY_GRAD" label="Velocity Gradient">
+  <TabItem value="SHAPE_SIZE_VELOCITY_GRAD" label="Velocity Curve">
+
+Particles will change size based on their velocity, with the size being controlled by a curve texture.
+  
+#### Size from Speed
+[`Curve Texture`](./textures#curve-texture) `(R or RG Channel)` controlling the size of the particles based on their speed.
+
+#### Min Size
+`Float` value in the **Range** `[0.0, 1.0]` or `Vector2` controlling the minimum size of the particles.
+
+#### Max Size
+`Float` value in the **Range** `[0.0, 1.0]` or `Vector2` controlling the maximum size of the particles.
+
+#### Max Speed
+`Float` value in the **Range** `[0.001, 1000.0]` used as the maximum speed for the velocity based size calculation.
+This value does not affect the actual speed of the particles or has to be the same as the speed limit in the simulators, it is only used as a reference for the size calculation.
+
+#### Clamp Speed
+`Checkbox` controlling if the speed should be clamped to always be in the range `[0.0, MaxSpeed]`.
+
+  </TabItem>
+</Tabs>
+
+#### Screen Space Size
+`Checkbox` controlling if the size of the particles should be in screen space.
+If this is on, the size of the particles will be the same no matter the distance to the camera.
+This can be useful to keep performance consistent, but might look weird if the particles are very close or very far away.
 
   </TabItem>
 </Tabs>
@@ -218,126 +329,320 @@ For more information on what this does, check the Unity Documentation on [Render
 <Tabs>
   <TabItem value="COLOR_MODE_STATIC" label="Static" default>
 
+The particles will have a static color.
+
+#### Color
+`Color` value controlling the color of the particles.
+
   </TabItem>
   <TabItem value="COLOR_MODE_PULSE" label="Pulse">
+
+The particles will pulse between two colors.
+
+#### Color 1
+`Color` value controlling the first color of the particles.
+
+#### Color 2
+`Color` value controlling the second color of the particles.
+
+#### Pulse Length
+`Float` value in the **Range** `[0.001, 1000.0]` controlling the time it takes to go through a full cycle from color 1 to color 2 and back.
+
+#### Synchronize
+`Checkbox` controlling if the pulse should be synchronized for all particles or if they should pulse independently.
 
   </TabItem>
   <TabItem value="COLOR_MODE_GRADIENT" label="Gradient">
 
+The particles will change color based on a gradient texture.
+
+#### Color over Time
+[`Gradient Texture`](./textures#gradient-texture) `(RGBA Channel)` controlling the color of the particles over time.
+
+#### Cycle Length
+`Float` value in the **Range** `[0.001, 1000.0]` controlling the time it takes to go through a full cycle of the gradient texture.
+
+#### Synchronize
+`Checkbox` controlling if the gradient should be synchronized for all particles or if they should change independently.
+
   </TabItem>
   <TabItem value="COLOR_MODE_DIRECTION" label="Direction">
+
+The particles will change color based on the direction they are moving towards.
+The color will be interpolated between the base color and a mix of the X, Y and Z axis colors based on the direction.
+
+#### Base Color
+`Color` value controlling the base color of the particles.
+This is the color the particles will have when they are not moving.
+
+#### X Axis
+`Color` value controlling the color of the particles when they are moving on the X axis.
+
+#### Y Axis
+`Color` value controlling the color of the particles when they are moving on the Y axis.
+
+#### Z Axis
+`Color` value controlling the color of the particles when they are moving on the Z axis.
+
+#### Normalize Direction
+`Checkbox` controlling if the direction should be normalized before calculating the color.
+If this is off, the color will be stronger the faster the particles are moving.
+If this is on, the color will always be a mixture of the axis colors unless the particles are not moving at all.
+
+#### Max Speed
+`Float` value in the **Range** `[0.001, 1000.0]` used as the maximum speed for the direction based color calculation.
+This value does not affect the actual speed of the particles or has to be the same as the speed limit in the simulators, it is only used as a reference for the color calculation.
+This value is only relevant if `Normalize Direction` is off.
+
+#### Clamp Speed
+`Checkbox` controlling if the speed should be clamped to always be in the range `[0.0, MaxSpeed]`.
+This value is only relevant if `Normalize Direction` is off.
 
   </TabItem>
   <TabItem value="COLOR_MODE_VELOCITY" label="Velocity">
 
+The particles will change color based on their velocity aka Speed.
+
+#### Color from Speed
+[`Gradient Texture`](./textures#gradient-texture) `(RGBA Channel)` controlling the color of the particles based on their speed.
+
+#### Max Speed
+`Float` value in the **Range** `[0.001, 1000.0]` used as the maximum speed for the direction based color calculation.
+This value does not affect the actual speed of the particles or has to be the same as the speed limit in the simulators, it is only used as a reference for the color calculation.
+
+#### Clamp Speed
+`Checkbox` controlling if the speed should be clamped to always be in the range `[0.0, MaxSpeed]`.
+
   </TabItem>
   <TabItem value="COLOR_MODE_LIFETIME" label="Lifetime">
+
+The particles will change color over their lifetime.
+
+#### Color over Lifetime
+[`Gradient Texture`](./textures#gradient-texture) `(RGBA Channel)` controlling the color of the particles over their lifetime.
+
+#### Clamp Lifetime
+`Checkbox` controlling if the lifetime should be clamped to always be in the range `[0.0, 1.0]`.
 
   </TabItem>
   <TabItem value="COLOR_MODE_TEXTURE" label="Texture">
 
-  </TabItem>
-</Tabs>
+Each particle will sample a color from the texture based on its id.
 
-<Tabs>
-  <TabItem value="COLOR_FALLOFF_NONE" label="None" default>
-
-  </TabItem>
-  <TabItem value="COLOR_FALLOFF_ROOT" label="Square Root">
-
-  </TabItem>
-  <TabItem value="COLOR_FALLOFF_HALFSINE" label="Half Sine">
-
-  </TabItem>
-  <TabItem value="COLOR_FALLOFF_LINEAR" label="Linear">
-
-  </TabItem>
-  <TabItem value="COLOR_FALLOFF_SINE" label="Sine">
-
-  </TabItem>
-  <TabItem value="COLOR_FALLOFF_SQUARED" label="Squared">
-
-  </TabItem>
-  <TabItem value="COLOR_FALLOFF_GRADIENT" label="Gradient">
+#### Colors
+`Texture` `(RGBA Channel)` controlling the color of the particles.
+`Color` value multiplied with the color from the texture.
 
   </TabItem>
 </Tabs>
 
-            None,
-            SquareRoot,
-            HalfSine,
-            Linear,
-            Sine,
-            Squared,
-            Gradient
+#### Alpha Falloff
+`Dropdown` controlling the Alpha Falloff of the particles.
+
+Possible values are: `None`, `SquareRoot`, `HalfSine`, `Linear`, `Sine`, `Squared`, `Gradient`.
+
+When using `Gradient` you can also specify a [`Gradient Texture`](./textures#gradient-texture) to control the falloff in the following settings.
+Some Graphs showing the different falloffs can be found [here](https://www.desmos.com/calculator/onpikzhi1j)
+
+#### Falloff Gradient
+[`Gradient Texture`](./textures#gradient-texture) `(Alpha Channel)` controlling the Alpha Falloff of the particles.
+Left to right will be mapped to center to edge of the particle.
 
 ## Texture Settings
 
+If this section is turned on, the particles will show a texture which will be multiplied with the color of the particles.
+
+#### Texture
+`Texture` controlling the texture of the particles.
+By adjusting the Tiling of the texture you can create a sprite sheet where each particle will show a different part of the texture.
+
+#### Alpha Cutoff
+`Float` value in the **Range** `[0.0, 1.0]` controlling the Alpha Cutoff of the texture.
+If the alpha value of a pixel minus the cutoff is below zero, the pixel will be discarded.
+This is especially useful for Opaque Particles with a transparent texture.
+
+
+#### Animate
+`Dropdown` controlling if and how the texture should be animated.
+
 <tabs>
   <tab-item value="COLOR_ANIM_TEX_OFF" label="Off" default>
+  
+The texture will not be animated and each particle will always show the same part of the texture.
 
   </tab-item>
   <tab-item value="COLOR_ANIM_TEX_ON" label="On">
 
+The particles will cycle through the texture over time and each particle will be on their own cycle.
+
+#### Animation Length
+`Float` value in the **Range** `[0.001, 1000.0]` controlling the time it takes to go through a full cycle of the texture.
+
   </tab-item>
   <tab-item value="COLOR_ANIM_TEX_SYNCHED" label="Synched">
 
+The particles will cycle through the texture over time and all particles will be on the same cycle.
+
+#### Animation Length
+`Float` value in the **Range** `[0.001, 1000.0]` controlling the time it takes to go through a full cycle of the texture.
+
   </tab-item>
   <tab-item value="COLOR_ANIM_TEX_LIFETIME" label="From Lifetime">
+
+The particles will cycle through the texture over their lifetime.
+
+#### Clamp Lifetime
+`Checkbox` controlling if the lifetime should be clamped to always be in the range `[0.0, 1.0]`.
 
   </tab-item>
 </tabs>
 
 ## Rotation Settings
 
+By default, the particles will always face the camera, but you can also make them rotate in different ways or even have them rotate over time.
+
+:::info
+A full rotation of 360 degrees is equal to `1.0` in the settings below.
+:::
+
+#### Rotation Space
+
 <Tabs>
   <TabItem value="ROT_SPACE_WORLD" label="World" default>
+
+The particle rotation will be in world space.
 
   </TabItem>
   <TabItem value="ROT_SPACE_LOCAL" label="Local">
 
+The particle rotation will be in local space, relative to the Particles GameObject.
+
   </TabItem>
   <TabItem value="ROT_SPACE_SCREEN" label="Screen">
+
+The particle rotation will be in screen space, where all rotations are relative to the camera.
 
   </TabItem>
   <TabItem value="ROT_SPACE_DIR" label="Direction">
 
+The particle rotation will be relative to the direction they are moving towards, with the Y axis being the direction they are moving in.
+
   </TabItem>
 </Tabs>
+
+#### Base Rotation Mode
 
 <Tabs>
   <TabItem value="ROT_BASE_SINGLE" label="Single Value" default>
 
+All particles will have the same rotation.
+
+#### Base Rotation
+`Vector3` value controlling the X, Y and Z rotation of the particles.
+
   </TabItem>
   <TabItem value="ROT_BASE_RANGE" label="Range">
 
+All particles will have a random rotation within a range.
+
+#### Min Base Rotation
+`Vector3` value controlling the minimum X, Y and Z rotation of the particles.
+
+#### Max Base Rotation
+`Vector3` value controlling the maximum X, Y and Z rotation of the particles.
+
+#### Separate Axes
+`Checkbox` controlling if the X, Y and Z rotation should be separately randomized.
+This means the particles could for example have the minimum X rotation and the maximum Y rotation.
+
   </TabItem>
 </Tabs>
+
+#### Animate Rotation
 
 <Tabs>
   <TabItem value="ROT_ANIM_NONE" label="No Animation" default>
 
+The particles will not rotate over time.
+
   </TabItem>
   <TabItem value="ROT_OVER_TIME_SINGLE" label="Over Time">
+
+The particles will rotate over time with a constant speed.
+
+#### Rotation Speed
+`Vector3` value controlling the X, Y and Z rotation speed per second.
 
   </TabItem>
   <TabItem value="ROT_OVER_TIME_RANGE" label="Over Time with Range">
 
+The particles will rotate over time with a random speed within a range.
+
+#### Min Rotation Speed
+`Vector3` value controlling the minimum X, Y and Z rotation speed per second.
+
+#### Max Rotation Speed
+`Vector3` value controlling the maximum X, Y and Z rotation speed per second.
+
+#### Separate Axes
+`Checkbox` controlling if the X, Y and Z rotation speed should be separately randomized.
+This means the particles could for example have the minimum X rotation speed and the maximum Y rotation speed.
+
   </TabItem>
   <TabItem value="ROT_OSCILLATE_RANGE" label="Oscillate Range">
+
+The particles will oscillate between two rotations over time.
+
+#### Min Rotation Diff
+`Vector3` value controlling the minimum X, Y and Z rotation difference from the base rotation.
+
+#### Max Rotation Diff
+`Vector3` value controlling the maximum X, Y and Z rotation difference from the base rotation.
+
+#### Oscillation Length
+`Float` value in the **Range** `[0.001, 1000.0]` controlling the time it takes to go through a full cycle from the min rotation diff to the max rotation diff and back.
+
+#### Synchronize
+`Checkbox` controlling if the oscillation should be synchronized for all particles or if they should oscillate independently.
 
   </TabItem>
   <TabItem value="ROT_LOOP_CURVE" label="Loop Curve">
 
+The particles will rotate based on a looped curve over time.
+
+#### Rotation
+[`Curve Texture`](./textures#curve-texture) `(RGB Channel)` controlling the rotation of the particles over time.
+
+#### Loop Length
+`Float` value in the **Range** `[0.001, 1000.0]` controlling the time it takes to go through a full cycle of the curve.
+
+#### Synchronize
+`Checkbox` controlling if the curve should be synchronized for all particles or if they should rotate independently.
+
   </TabItem>
   <TabItem value="ROT_LIFETIME_RANGE" label="Lifetime Range">
+
+The particles will rotate based on their lifetime with a specified start and end rotation difference.
+
+#### Start Rotation Diff
+`Vector3` value controlling the X, Y and Z rotation difference from the base rotation at the start of the particles lifetime.
+
+#### End Rotation Diff
+`Vector3` value controlling the X, Y and Z rotation difference from the base rotation at the end of the particles lifetime.
+
+#### Clamp Lifetime
+`Checkbox` controlling if the lifetime should be clamped to always be in the range `[0.0, 1.0]`.
 
   </TabItem>
   <TabItem value="ROT_LIFETIME_CURVE" label="Lifetime Curve">
 
+The particles will rotate based on their lifetime with a curve texture controlling the rotation.
+
+#### Rotation
+[`Curve Texture`](./textures#curve-texture) `(RGB Channel)` controlling the rotation of the particles over their lifetime.
+
+#### Clamp Lifetime
+`Checkbox` controlling if the lifetime should be clamped to always be in the range `[0.0, 1.0]`.
+
   </TabItem>
 </Tabs>
-
-:::note
-This Page is Currently still under construction.
-:::
