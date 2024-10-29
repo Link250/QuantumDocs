@@ -226,7 +226,7 @@ Particles will flicker between two sizes over time.
 Particles will flicker between two sizes over time, with the size being controlled by a curve texture.
 
 #### Size over Time
-[`Curve Texture`](./textures#curve-texture) `(R or RG Channel)` controlling the size of the particles over time.
+[`Curve Texture`](./textures#curve-texture) `(RFloat or RGFloat)` controlling the size of the particles over time.
 The values from `0.0` to `1.0` will be mapped to the min and max size specified below.
 
 #### Min Size
@@ -261,7 +261,7 @@ Particles will change size over their lifetime.
 Particles will change size over their lifetime, with the size being controlled by a curve texture.
 
 #### Size over Lifetime
-[`Curve Texture`](./textures#curve-texture) `(R or RG Channel)` controlling the size of the particles over their lifetime.
+[`Curve Texture`](./textures#curve-texture) `(RFloat or RGFloat)` controlling the size of the particles over their lifetime.
 The values from `0.0` to `1.0` will be mapped to the min and max size specified below.
 
 #### Min Size
@@ -297,7 +297,7 @@ This value does not affect the actual speed of the particles or has to be the sa
 Particles will change size based on their velocity, with the size being controlled by a curve texture.
   
 #### Size from Speed
-[`Curve Texture`](./textures#curve-texture) `(R or RG Channel)` controlling the size of the particles based on their speed.
+[`Curve Texture`](./textures#curve-texture) `(RFloat or RGFloat)` controlling the size of the particles based on their speed.
 
 #### Min Size
 `Float` value in the **Range** `[0.0, 1.0]` or `Vector2` controlling the minimum size of the particles.
@@ -357,7 +357,7 @@ The particles will pulse between two colors.
 The particles will change color based on a gradient texture.
 
 #### Color over Time
-[`Gradient Texture`](./textures#gradient-texture) `(RGBA Channel)` controlling the color of the particles over time.
+[`Gradient Texture`](./textures#gradient-texture) `(RGBA)` controlling the color of the particles over time.
 
 #### Cycle Length
 `Float` value in the **Range** `[0.001, 1000.0]` controlling the time it takes to go through a full cycle of the gradient texture.
@@ -404,7 +404,7 @@ This value is only relevant if `Normalize Direction` is off.
 The particles will change color based on their velocity aka Speed.
 
 #### Color from Speed
-[`Gradient Texture`](./textures#gradient-texture) `(RGBA Channel)` controlling the color of the particles based on their speed.
+[`Gradient Texture`](./textures#gradient-texture) `(RGBA)` controlling the color of the particles based on their speed.
 
 #### Max Speed
 `Float` value in the **Range** `[0.001, 1000.0]` used as the maximum speed for the direction based color calculation.
@@ -419,7 +419,7 @@ This value does not affect the actual speed of the particles or has to be the sa
 The particles will change color over their lifetime.
 
 #### Color over Lifetime
-[`Gradient Texture`](./textures#gradient-texture) `(RGBA Channel)` controlling the color of the particles over their lifetime.
+[`Gradient Texture`](./textures#gradient-texture) `(RGBA)` controlling the color of the particles over their lifetime.
 
 #### Clamp Lifetime
 `Checkbox` controlling if the lifetime should be clamped to always be in the range `[0.0, 1.0]`.
@@ -430,7 +430,7 @@ The particles will change color over their lifetime.
 Each particle will sample a color from the texture based on its id.
 
 #### Colors
-`Texture` `(RGBA Channel)` controlling the color of the particles.
+`Texture` `(RGBA)` controlling the color of the particles.
 `Color` value multiplied with the color from the texture.
 
   </TabItem>
@@ -445,7 +445,7 @@ When using `Gradient` you can also specify a [`Gradient Texture`](./textures#gra
 Some Graphs showing the different falloffs can be found [here](https://www.desmos.com/calculator/onpikzhi1j)
 
 #### Falloff Gradient
-[`Gradient Texture`](./textures#gradient-texture) `(Alpha Channel)` controlling the Alpha Falloff of the particles.
+[`Gradient Texture`](./textures#gradient-texture) `(Alpha)` controlling the Alpha Falloff of the particles.
 Left to right will be mapped to center to edge of the particle.
 
 ## Texture Settings
@@ -611,7 +611,7 @@ The particles will oscillate between two rotations over time.
 The particles will rotate based on a looped curve over time.
 
 #### Rotation
-[`Curve Texture`](./textures#curve-texture) `(RGB Channel)` controlling the rotation of the particles over time.
+[`Curve Texture`](./textures#curve-texture) `(RGBAFloat)` controlling the rotation of the particles over time.
 
 #### Loop Length
 `Float` value in the **Range** `[0.001, 1000.0]` controlling the time it takes to go through a full cycle of the curve.
@@ -639,7 +639,7 @@ The particles will rotate based on their lifetime with a specified start and end
 The particles will rotate based on their lifetime with a curve texture controlling the rotation.
 
 #### Rotation
-[`Curve Texture`](./textures#curve-texture) `(RGB Channel)` controlling the rotation of the particles over their lifetime.
+[`Curve Texture`](./textures#curve-texture) `(RGBAFloat)` controlling the rotation of the particles over their lifetime.
 
 #### Clamp Lifetime
 `Checkbox` controlling if the lifetime should be clamped to always be in the range `[0.0, 1.0]`.

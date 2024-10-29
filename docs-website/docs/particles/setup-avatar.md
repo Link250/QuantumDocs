@@ -63,7 +63,7 @@ Other resolutions might work, but could lead to unexpected results.
 
 To change the Particle Amount, you will need to adjust several things in the Quantum Particles setup.
 1. In the `Particles` GameObject (usually located inside the `Quantum Particles` GameObject), change the mesh to one with the desired amount of vertices.
-    - Appropriate meshes can be found in the `Quantum/Particles/Resources/Meshes` folder. Or generate your own mesh by going to `Tools > Quantum > Particles > Particle Mesh`.
+    - Appropriate meshes can be found in the `Quantum/Particles/Resources/Meshes` folder. Or generate your own mesh by going to `Tools > Quantum > Particles`.
 2. Replace the [Render Textures](./textures#render-texture) used in the Cameras and the Simulator Materials.
     - The [Render Textures](./textures#render-texture) can be found in the `Camera` Components, inside the slot `Target Texture`, and for the Simulator Materials under `Base Settings > Input Texture`.
     - Keep in mind that the Material needs a [Render Textures](./textures#render-texture) of the **SAME** side (Left/Right) as the Simulator it is used for, while the Camera needs the **OPPOSITE** side as the Simulator it is inside.
