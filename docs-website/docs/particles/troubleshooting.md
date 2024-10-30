@@ -33,6 +33,12 @@ Quantum Particles are only visible to players who have you friended or who have 
 
 ---
 
+### Missing Scripts in Prefabs
+- make sure your [VRChat SDKs](https://creators.vrchat.com/sdk/updating-the-sdk) are up to date, the minimum recommended version is 3.7.2
+- if you want to use the VRCFury prefabs, make sure [VRCFury](https://vrcfury.com/download) is up to date as well, the minimum recommended version is 1.1136.0
+
+---
+
 ### Why are the Quantum Particles not Quest/Android/iOS compatible
 
 Quantum Particles use a special setup of cameras and custom shaders to simulate and render the particles, both of which are not supported on Quest/Android/iOS. This is a limitation by VRChat and might change in the future, but is out of my control.
