@@ -3,6 +3,10 @@ sidebar_position: 1
 ---
 
 # Avatar Setup
+
+Here is a guide on how to set up the Quantum Particles on your Avatar in VRChat.
+[![Avatar Setup Guide](https://img.youtube.com/vi/rttDqk_KsjM/0.jpg)](https://youtu.be/rttDqk_KsjM)
+
 First of all, make sure to have a VRChat Unity Project with the latest SDK installed.
 After you imported the Quantum Particles package, all the Prefabs can be found in the `Quantum\Particles\Prefabs` folder.
 :::warning
@@ -44,8 +48,6 @@ By default, the reference points for the particles are attached to your left and
 ### Second Part - AV3 Setup
 It is advised to use something like [AV3Manager](https://github.com/VRLabs/Avatars-3.0-Manager) to merge the `Quantum Particles Parameters` and `Quantum Particles FX` Animator Controller found at `Quantum/Particles/Resources/Expressions` with your Avatars Animator Controller and Parameters.
 Finally, add a new sub-menu control to your avatar's Menu file and drag in `Quantum Particles Menu` as the target sub-menu.
-
-Tutorial Video coming soon!
 
 ## Basic Setup
 If you want to create your own Setup from scratch or plan to use the particles in a different project, like a VRChat World, the package contains a prefab simply called `QuantumParticles` which contains the basic setup for the particles.
