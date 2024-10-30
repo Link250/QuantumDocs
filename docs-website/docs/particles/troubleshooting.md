@@ -20,7 +20,7 @@ Both of these issues are likely because the reset animation has not been used to
 
 ### Why can't other players see my Particles
 
-Quantum Particles are only visible to players who have you friended or who have your avatar fully shown, this means explicitly showing your avatar and not just adjusting the safety settings to have everything enabled. This is a limitation by VRChat as camera components will be disabled otherwise to prevent abuse.
+Quantum Particles are only visible to players who have you friended or who have your avatar fully shown by explicitly showing your avatar and not just adjusting the safety settings to have everything enabled. This is a limitation by VRChat as camera components will be disabled otherwise to prevent abuse.
 - **Side note:** If you added someone as a friend or they fully enabled your avatar while you were wearing the avatar with the particles, you might need to reload the avatar for the particles to show up.
 
 ---
