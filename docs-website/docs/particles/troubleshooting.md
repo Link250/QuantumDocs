@@ -26,10 +26,13 @@ Quantum Particles are only visible to players who have you friended or who have 
 ---
 
 ### Broken/Pink Shaders
-- if you get a `Shader error: Couldn't open include file 'Lib/QuantumParticles.cginc'`
+- if you get a `Shader error: Couldn't open include file 'Lib/QuantumParticles.cginc'` error in the console
     - this is possibly due to importing the package into a project that already had a previous version of the Quantum Particles.
     - if you had the old GPU particles package installed, make sure to remove it before importing the new Quantum Particles package. There is currently no way to update those old setups so you'd have to redo everything anyway.
-- if the problem persists, try deleting the folders named `Simulator...` and `Visualizer...` at `ProjectName\Library\ShaderCache\shader\` or create a new project and only import the VRChat SDKs and Quantum Particles package first.
+    - while importing the new package make sure that all the files will be imported to the `Quantum/Particles/` folder and not to a different folder.
+- to fix the problem:
+    - try deleting the folders named `Simulator...` and `Visualizer...` at `ProjectName\Library\ShaderCache\shader\`
+    - try deleting the `Quantum/Particles/` folder, close and reopen Unity, and then reimport the package
 
 ---
 
