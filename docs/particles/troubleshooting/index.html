@@ -5,7 +5,7 @@
 <meta name="generator" content="Docusaurus v3.5.2">
 <title data-rh="true">Troubleshooting &amp; FAQ | Quantum Docs</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://link250.github.io/QuantumDocs/img/social-card.png"><meta data-rh="true" name="twitter:image" content="https://link250.github.io/QuantumDocs/img/social-card.png"><meta data-rh="true" property="og:url" content="https://link250.github.io/QuantumDocs/docs/particles/troubleshooting"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Troubleshooting &amp; FAQ | Quantum Docs"><meta data-rh="true" name="description" content="If you can&#x27;t find the answer to your question here, feel free to ask in the Discord Server."><meta data-rh="true" property="og:description" content="If you can&#x27;t find the answer to your question here, feel free to ask in the Discord Server."><link data-rh="true" rel="icon" href="/QuantumDocs/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://link250.github.io/QuantumDocs/docs/particles/troubleshooting"><link data-rh="true" rel="alternate" href="https://link250.github.io/QuantumDocs/docs/particles/troubleshooting" hreflang="en"><link data-rh="true" rel="alternate" href="https://link250.github.io/QuantumDocs/docs/particles/troubleshooting" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/QuantumDocs/blog/rss.xml" title="Quantum Docs RSS Feed">
 <link rel="alternate" type="application/atom+xml" href="/QuantumDocs/blog/atom.xml" title="Quantum Docs Atom Feed"><link rel="stylesheet" href="/QuantumDocs/assets/css/styles.76655461.css">
-<script src="/QuantumDocs/assets/js/runtime~main.6bd1454c.js" defer="defer"></script>
+<script src="/QuantumDocs/assets/js/runtime~main.190d3a39.js" defer="defer"></script>
 <script src="/QuantumDocs/assets/js/main.97d1edd0.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -25,13 +25,19 @@
 <hr>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="brokenpink-shaders">Broken/Pink Shaders<a href="#brokenpink-shaders" class="hash-link" aria-label="Direct link to Broken/Pink Shaders" title="Direct link to Broken/Pink Shaders">​</a></h3>
 <ul>
-<li>if you get a <code>Shader error: Couldn&#x27;t open include file &#x27;Lib/QuantumParticles.cginc&#x27;</code>
+<li>if you get a <code>Shader error: Couldn&#x27;t open include file &#x27;Lib/QuantumParticles.cginc&#x27;</code> error in the console<!-- -->
 <ul>
 <li>this is possibly due to importing the package into a project that already had a previous version of the Quantum Particles.</li>
 <li>if you had the old GPU particles package installed, make sure to remove it before importing the new Quantum Particles package. There is currently no way to update those old setups so you&#x27;d have to redo everything anyway.</li>
+<li>while importing the new package make sure that all the files will be imported to the <code>Quantum/Particles/</code> folder and not to a different folder.</li>
 </ul>
 </li>
-<li>if the problem persists, try deleting the folders named <code>Simulator...</code> and <code>Visualizer...</code> at <code>ProjectName\Library\ShaderCache\shader\</code> or create a new project and only import the VRChat SDKs and Quantum Particles package first.</li>
+<li>to fix the problem:<!-- -->
+<ul>
+<li>try deleting the folders named <code>Simulator...</code> and <code>Visualizer...</code> at <code>ProjectName\Library\ShaderCache\shader\</code></li>
+<li>try deleting the <code>Quantum/Particles/</code> folder, close and reopen Unity, and then reimport the package</li>
+</ul>
+</li>
 </ul>
 <hr>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="missing-scripts-in-prefabs">Missing Scripts in Prefabs<a href="#missing-scripts-in-prefabs" class="hash-link" aria-label="Direct link to Missing Scripts in Prefabs" title="Direct link to Missing Scripts in Prefabs">​</a></h3>
