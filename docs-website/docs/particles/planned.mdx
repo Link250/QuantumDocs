@@ -1,0 +1,61 @@
+---
+sidebar_position: 10
+toc_min_heading_level: 2
+toc_max_heading_level: 3
+---
+
+# Planned Features
+
+The following is a list to keep track of all planned features but also things that are currently in progress or won't be implemented.  
+  
+If you have any suggestions or ideas for new features, feel free to create a new thread in the `#feature-requests` channel on the [Discord Server](https://discord.gg/Va5VPev) (but please check if it has already been suggested before or is part of this list). You can also add comments to existing threads if you have more ideas or want to discuss them.
+
+export const Tag = ({ name }) => (
+  <span
+    style={{
+      backgroundColor: `var(--tag-color-${name.toLowerCase().replace(/\s/g, '-')})`,
+      borderRadius: '4px',
+      padding: '2px 4px',
+    }}
+  >
+    {name}
+  </span>
+);
+
+export const State = ({ name }) => (
+  <span
+    style={{
+      backgroundColor: `var(--state-color-${name.toLowerCase().replace(/\s/g, '-')})`,
+      borderRadius: '16px',
+      padding: '2px 8px',
+    }}
+  >
+    {name}
+  </span>
+);
+
+:::info Category
+The following Tags are used to categorize the planned features:  
+<Tag name="Simulator" />, <Tag name="Visualizer" />, <Tag name="Texture" />, <Tag name="Setup" />, <Tag name="UI" />, <Tag name="Other" /> 
+:::
+
+:::info Status
+A feature can be in one of the following states:  
+<State name="In Progress" /> - The feature is currently being worked on.  
+<State name="Needs Design" /> - The feature is planned but the design is not yet finalized.  
+<State name="Planned" /> - The feature is planned to be implemented in the future.  
+<State name="Not Planned" /> - The feature is not currently planned.  
+<State name="Idea" /> - The feature is just an idea and it is not yet decided if it will be implemented.  
+:::
+---
+
+
+## Audio Link
+Tags: <Tag name="Simulator" /> <Tag name="Visualizer" />  
+Status: <State name="Needs Design" />  
+
+
+
+:::note
+This Page is Currently still under construction.
+:::
