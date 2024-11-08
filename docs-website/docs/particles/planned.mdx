@@ -1,7 +1,7 @@
 ---
 sidebar_position: 10
 toc_min_heading_level: 2
-toc_max_heading_level: 3
+toc_max_heading_level: 2
 ---
 
 # Planned Features
@@ -41,21 +41,299 @@ The following Tags are used to categorize the planned features:
 
 :::info Status
 A feature can be in one of the following states:  
-<State name="In Progress" /> - The feature is currently being worked on.  
-<State name="Needs Design" /> - The feature is planned but the design is not yet finalized.  
-<State name="Planned" /> - The feature is planned to be implemented in the future.  
-<State name="Not Planned" /> - The feature is not currently planned.  
-<State name="Idea" /> - The feature is just an idea and it is not yet decided if it will be implemented.  
+<State name="Done" /> - This feature can already be tested in early-access and will be part of a future release.  
+<State name="In Progress" /> - This feature is currently being worked on.  
+<State name="Planned" /> - This feature is planned to be implemented in the future.  
+<State name="Not Planned" /> - This feature is not currently planned.  
+<State name="Idea" /> - This feature is just an idea and it is not yet decided if it will be implemented.  
 :::
+
 ---
-
-
 ## Audio Link
-Tags: <Tag name="Simulator" /> <Tag name="Visualizer" />  
-Status: <State name="Needs Design" />  
+**Tags:** <Tag name="Simulator" /> <Tag name="Visualizer" />  
+**Status:** <State name="Planned" />  
 
+The Audio Link feature will allow you to link audio data to various parameters in the simulator and visualizer. This will allow you to create more dynamic and interactive effects that react to the music that is playing in the world.  
+Both the simulator and visualizer could make use of this information in different ways.
 
+### Some Examples (as proposed by fundale):
+**For the Visualizer:**
 
-:::note
-This Page is Currently still under construction.
-:::
+- Basic Color Brighten or Darken using `ALPASS_AUDIOLINK` or `ALPASS_FILTEREDAUDIOLINK`
+- Lerp between two Colors using `ALPASS_AUDIOLINK` or `ALPASS_FILTEREDAUDIOLINK`
+- Brighten / Darken from *World Origin* or *Avatar Origin* using `ALPASS_AUDIOLINKHISTORY`
+- Lerp between two Colors from *World Origin* or *Avatar Origin* using `ALPASS_AUDIOLINKHISTORY`
+- Change Color Hue based off `ALPASS_CHRONOTENSITY`
+- Use a Theme Color using `ALPASS_THEME_COLOR0` / `ALPASS_THEME_COLOR1` / `ALPASS_THEME_COLOR2` / `ALPASS_THEME_COLOR3`
+- ColorChord strip from *World Origin* or *Avatar Origin* using `ALPASS_CCSTRIP`
+
+**For the Simulator:**
+
+- Attract / Repulse using `ALPASS_AUDIOLINK` or `ALPASS_FILTEREDAUDIOLINK`
+- Speed up / slow down the Attraction or / Repulsion using `ALPASS_AUDIOLINK` or `ALPASS_FILTEREDAUDIOLINK`
+- Shockwave Repulse using `ALPASS_AUDIOLINKHISTORY`
+
+### Other Notes:
+
+- in addition to changing the color and strength, you could also change the size, rotation or more
+- values like `ALPASS_AUDIOLINKHISTORY` or `ALPASS_CCSTRIP` could be used in combination with other planned features like **Shockwave / Pulse Effects** or **Particle Chains / Trails**
+- either have a separate audio link section in the settings or add a special audio link section to every place where it would make sense
+
+---
+## Shockwave / Pulse Effects
+**Tags:** <Tag name="Simulator" /> <Tag name="Visualizer" />  
+**Status:** <State name="Planned" />  
+
+Create a Pulse or Shockwave, where the effect propagates through the particles depending on their distance to the world origin or a simulator point.
+
+- In the Visualizer this can be used to change the particle size, color, rotation, etc.
+- In the Simulator this can be used to control forces like attraction, repulsion, turbulence, or even speed up the aging of particles along the shockwave, making them respawn
+
+---
+## Simple Collision
+**Tags:** <Tag name="Simulator" />  
+**Status:** <State name="Planned" />  
+
+Basic Collision simulation for the Particles.  
+These Colliders would be placed at the Simulator Positions.
+
+- List of shapes to choose from like
+    - Box
+    - Sphere
+    - Cylinder
+    - Inverted shapes (aka containers)
+- Settings for collision
+    - plasticity / elasticity (control how much the particles will bounce or just stick to the walls)
+- Maybe use the depth texture from a GrabPass to have particles collide with what you see on your screen (would cost some performance and only work on the opaque surfaces facing you)
+
+---
+## Particle Chains / Trails
+**Tags:** <Tag name="Simulator" />  
+**Status:** <State name="Planned" />  
+
+This setting will cause particles to strictly follow each other like a chain or trail.
+
+- Setting for the length of the chain
+- Offset Texture to finely control the connections between individual particles
+- This will not increase the amount of particles, so if you have a chain length of 10 then only a 10th of particles will continue to move around freely, the other 90 % will be used for the trails
+
+---
+## Grabbing
+**Tags:** <Tag name="Simulator" />  
+**Status:** <State name="Planned" />  
+
+Grabbing Particles to make them behave like they are stuck to your hand or wherever your simulators are.
+
+- similar to position space `local` but with the addition of them keeping their current position relative to the simulator when this is toggled on
+- currently this is already kind of possible by using the drag force with a uniform strength of 1 but in this case it would be more stable and would behave slightly differently when rotating
+
+---
+## Dependent Force Strength
+**Tags:** <Tag name="Simulator" />  
+**Status:** <State name="Idea" />  
+
+Make the force strength of a particle depend on:
+- Speed
+- Age
+- Size
+
+---
+## Dependent Timeflow
+**Tags:** <Tag name="Simulator" />  
+**Status:** <State name="Idea" />  
+
+Make the Timeflow of a particle depend on:
+- Speed
+- Age
+- Size
+
+---
+## Areas of different Timeflow
+**Tags:** <Tag name="Simulator" />  
+**Status:** <State name="Idea" />  
+
+Make it possible to create areas to slow down or speed up particles.
+
+- this will not change their actual velocity, just the speed at which the particles are simulated, so when an area slows down the particles inside will also live longer and will keep moving when leaving that area
+
+---
+## Particle Mesh
+**Tags:** <Tag name="Visualizer" /> <Tag name="Simulator" />  
+**Status:** <State name="Planned" />  
+
+Not to be confused with Mesh Particles form Unity’s Particle System, this would not turn the individual particles into Meshes but instead have the particles form a Mesh together.
+
+- Instead of using a special Particle Mesh for the Visualizer, any Mesh could be used as long as it follows a few criteria
+    - The Mesh should have the same amount of tris as the particle system or less (when using more the tris would be missing or stacked on each other)
+- The particles would use the shape, size, rotation, color and maybe even a given texture to imitate how the mesh would normally look with something like an unlit texture shader but each triangle could move around and their size, rotation and color can be changed
+- In combination with creating a shape Texture of the same Mesh this can be used for some interesting effects, like having the particles spawn in the shape of the mesh, and then start moving, or using it as an attraction shape the particles can flow into
+
+With some extra steps and a special setup it would even be possible to use the live mesh positions with all the posing applied to it, making it possible to have effects like particles spawning from the surface of your skin or clothes.
+
+---
+## HSV Color Settings
+**Tags:** <Tag name="Visualizer" />  
+**Status:** <State name="Planned" />  
+
+Add Hue, Saturation, and Value settings to the Color settings, which will be used to modify the current color of the particles.  
+This could be used for animations to easier control the color of particles through parameters.
+
+---
+## Bokeh
+**Tags:** <Tag name="Visualizer" />  
+**Status:** <State name="Idea" />  
+
+Bokeh depth of field for particles
+
+- control the distances where it starts
+- control strength
+
+---
+## Shape Texture Creation
+**Tags:** <Tag name="Texture" />  
+**Status:** <State name="Planned" />  
+
+- Create from Texture
+    - choose between alpha / luminance or any combination of ARGB
+    - add option to use a depth texture to add depth to an image generated shape texture
+    - add stippling as method to place dots instead of a random placement
+- Create from mesh (.fbx)
+    - create a colormap from vertex colors or texture colors to be used as color texture in the visualizer
+    - place a particle on each vertex and use vertex colors to generate a colormap (could be used for point clouds)
+- Create from Particle Clouds, use common file types to load particle cloud data, generate both a texture for coloring and one for positions
+
+---
+## Offset Texture Creation
+**Tags:** <Tag name="Texture" />  
+**Status:** <State name="Planned" />  
+
+- Random
+- Loops (adjustable length)
+- Mesh edges
+- Other structures
+
+---
+## Filter Textures
+**Tags:** <Tag name="Texture" />  
+**Status:** <State name="Idea" />  
+
+- use a texture to filter out particles based on their id
+- will use a float value which can be used as a multiplier for an attraction force or other attributes
+- can be use to apply special effects to only a specific subset of particles
+
+Alternate names:
+
+- Weight Textures
+- Mask Textures
+
+---
+## Integrated Texture Creation
+**Tags:** <Tag name="UI" /> <Tag name="Texture" />  
+**Status:** <State name="Planned" />  
+
+Integrate creation of special textures like Shape Textures into the Shader Editor and remember their settings.
+
+- This Includes:
+    - Shape Textures
+    - Offset Textures
+    - (Filter Textures)
+    - Gradient Textures
+    - Curve Textures
+- Every UI element which uses one of those Textures will have a section you can open or a button to create these textures in-place
+    - Gradients and Curves already have this feature
+- Information on how this Texture was created will be stored with the Texture, so it can be recalled and edited easier later (this includes references to the Mesh/Image used or for curves the original control points)
+- Choose exactly which data should be created so only the relevant parts are present and the shader will be optimized to use those
+    - this means when creating a shape texture for example with only position data and no velocity, age and lifetime data, the texture will be less than half the size
+    - for the shader this means it will automatically know what kind of data is stored in the texture and can let the user know if it’s not suitable for a given texture field
+    - additionally add a way to combine these textures so if you have a velocity and a position texture you can combine them into one again (maybe do this on the fly in the shader editor too)
+
+---
+## Various UI Improvements
+**Tags:** <Tag name="UI" />  
+**Status:** <State name="Planned" />  
+
+This is a list of various UI Improvements for the Simulator and Visualizer Shader Editor.
+
+- Add warning to textures used for gradients when an unsuitable wrapping mode is used (for example: use wrap mode repeat for anything cyclic)
+- Add a warning for reset textures and offset textures if they are too large or too small for the amount of particles given by the Input Texture
+- Add Tooltips to Settings, this can be used to give explanations of settings inside the editor by simply hovering the mouse over a field
+- Make a miniature simulation of all forces acting on a few particles and show their movement
+    - This could be helpful to show how the current settings affect particles and would be shown by having a section in the Shader Editor where you can see a small simulation
+    - Adjustable sample count, scale and alignment (axis)
+    - Each sample point spawns particles which will be connected through lines, so it looks like a string of pearls, showing the movement over time
+
+---
+## World Prefab
+**Tags:** <Tag name="Setup" />  
+**Status:** <State name="Planned" />  
+
+A Prefab specialized for use in VRChat Worlds.
+
+- Could make use of Custom Render Textures so Cameras are no longer necessary for the update loop
+- Simulator Information is either provided through Udon or a single Camera (need to test possibilities and performance)
+    - both options could allow for more than two reference points for the simulation, meaning you could have multiple players interacting with the same particles
+- As Quest supports custom shaders and cameras in Worlds this could be **Quest compatible**
+    - the Quest version would be slightly different though as some Shader features are not supported, but this should only affect performance and not the capabilities
+
+---
+## Shared Particles Setup
+**Tags:** <Tag name="Setup" />  
+**Status:** <State name="Planned" />  
+
+Special Setup which allows Particles to be shared between different Players.
+
+- This would require all Avatars to have this Setup on them and won’t just work with any Avatar
+- There are a few ways this could be implemented, one example would be:
+    - you are in control of the visual aspect of the particles and their simulation settings but everyone else can have additional reference points for the simulation
+    - this means if you have the fire preset for example, everyone who has an avatar with this setup active will also have fire spawning at their points
+    - The maximum number of other people you can see interacting will be limited by your avatar’s prefab settings
+- Another way would be to have one player be the “Host” and others can connect to their particle system and interact with it
+    - this would still require the other participants to have a special prefab on their avatar to join in, and of course everyone will need to have each others avatars fully shown or be friends to have it all work
+
+---
+## Quantum Particles Component
+**Tags:** <Tag name="Setup" />  
+**Status:** <State name="Idea" />  
+
+Turn everything into a component which can be added to your avatar like normal Unity Particle Systems.
+
+- This Component will contain basic information on your setup like particle counts, where you want to have your simulators and more
+- Automatically create resources like render textures and meshes for that specific avatar/component, that way you can have completely different setups in the same Project without having to duplicate all resources and adjust all references or just have an easier time changing these settings
+- maybe even control the simulator and visualizer settings from this component (at least make sure their inputs are properly set up and they are adjusted for the particle counts etc.)
+
+---
+## Particle Sub-Systems
+**Tags:** <Tag name="Setup" />  
+**Status:** <State name="Idea" />  
+
+Make it possible to have multiple particle systems in the same setup.
+
+- This means different portions of the particles are simulated at the same time and can have different settings but use the same update loop and same Render Texture to store their data, just different parts of it.
+- A result of them storing their data in the same texture would be that they could even interact with each other or behave in ways that depend on the other particles state (for example move, respawn depending on their state, or even be attracted to them)
+- These sub-systems could even use different visualizers but this would require splitting the mesh in accordance to the sub-system sizes (could be an automated process, only requiring a few button presses)
+
+---
+## Animated Particles
+**Tags:** <Tag name="Setup" /> <Tag name="Visualizer" />  
+**Status:** <State name="Idea" />  
+
+Animated Particles would not use a simulation setup, so their position and velocity cannot change dynamically and react to your movement or other influences, but with a special Visualizer Shader that can simulate basic motions on a loop for each particle, like spawning them, having them fly up and then respawn, they can still be used for various effects with a much lower performance impact and simpler setup
+
+---
+## VCC Package
+**Tags:** <Tag name="Other" />  
+**Status:** <State name="Idea" />  
+
+Turn Quantum particles into a VCC package.
+
+- would make it easier to add them and keep them updated
+- would not affect the early access version, only public releases
+
+---
+## Compatibility with GPU Particles
+**Tags:** <Tag name="Other" />  
+**Status:** <State name="Idea" />  
+
+Make it possible to update materials and textures from the old GPU Particle Setups.
+
+---

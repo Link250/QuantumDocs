@@ -23,9 +23,9 @@
   --tag-color-ui: #7C6D9A;
   --tag-color-other: #8A8A8A;
 
-  --state-color-planned: #58866A;
+  --state-color-done: #58866A;
   --state-color-in-progress: #55799D;
-  --state-color-needs-design: #B58E57;
+  --state-color-planned: #B58E57;
   --state-color-not-planned: #A8675F;
   --state-color-idea: #8A8A8A;
 }
@@ -48,9 +48,9 @@
   --tag-color-ui: #492F64;
   --tag-color-other: #5A5A5A;
 
-  --state-color-planned: #2B593F;
+  --state-color-done: #2B593F;
   --state-color-in-progress: #28456C;
-  --state-color-needs-design: #854C1D;
+  --state-color-planned: #854C1D;
   --state-color-not-planned: #6E3630;
   --state-color-idea: #5A5A5A;
 }
