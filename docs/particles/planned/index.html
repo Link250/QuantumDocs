@@ -5,7 +5,7 @@
 <meta name="generator" content="Docusaurus v3.5.2">
 <title data-rh="true">Planned Features | Quantum Docs</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://link250.github.io/QuantumDocs/img/social-card.png"><meta data-rh="true" name="twitter:image" content="https://link250.github.io/QuantumDocs/img/social-card.png"><meta data-rh="true" property="og:url" content="https://link250.github.io/QuantumDocs/docs/particles/planned"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Planned Features | Quantum Docs"><meta data-rh="true" name="description" content="The following is a list to keep track of all planned features but also things that are currently in progress or won&#x27;t be implemented."><meta data-rh="true" property="og:description" content="The following is a list to keep track of all planned features but also things that are currently in progress or won&#x27;t be implemented."><link data-rh="true" rel="icon" href="/QuantumDocs/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://link250.github.io/QuantumDocs/docs/particles/planned"><link data-rh="true" rel="alternate" href="https://link250.github.io/QuantumDocs/docs/particles/planned" hreflang="en"><link data-rh="true" rel="alternate" href="https://link250.github.io/QuantumDocs/docs/particles/planned" hreflang="x-default"><link rel="alternate" type="application/rss+xml" href="/QuantumDocs/blog/rss.xml" title="Quantum Docs RSS Feed">
 <link rel="alternate" type="application/atom+xml" href="/QuantumDocs/blog/atom.xml" title="Quantum Docs Atom Feed"><link rel="stylesheet" href="/QuantumDocs/assets/css/styles.1f678ca6.css">
-<script src="/QuantumDocs/assets/js/runtime~main.62e3a3c8.js" defer="defer"></script>
+<script src="/QuantumDocs/assets/js/runtime~main.a8bfcbba.js" defer="defer"></script>
 <script src="/QuantumDocs/assets/js/main.345319dc.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -28,28 +28,183 @@
 <strong>Status:</strong> <span style="background-color:var(--state-color-planned);border-radius:16px;padding:2px 8px">Planned</span></p>
 <p>The Audio Link feature will allow you to link audio data to various parameters in the simulator and visualizer. This will allow you to create more dynamic and interactive effects that react to the music that is playing in the world.<br>
 <!-- -->Both the simulator and visualizer could make use of this information in different ways.</p>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="some-examples-as-proposed-by-fundale">Some Examples (as proposed by fundale):<a href="#some-examples-as-proposed-by-fundale" class="hash-link" aria-label="Direct link to Some Examples (as proposed by fundale):" title="Direct link to Some Examples (as proposed by fundale):">​</a></h3>
-<p><strong>For the Visualizer:</strong></p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="audio-link-values">Audio Link Values<a href="#audio-link-values" class="hash-link" aria-label="Direct link to Audio Link Values" title="Direct link to Audio Link Values">​</a></h3>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="scalar-values"><code>Scalar Values</code><a href="#scalar-values" class="hash-link" aria-label="Direct link to scalar-values" title="Direct link to scalar-values">​</a></h4>
 <ul>
-<li>Basic Color Brighten or Darken using <code>ALPASS_AUDIOLINK</code> or <code>ALPASS_FILTEREDAUDIOLINK</code></li>
-<li>Lerp between two Colors using <code>ALPASS_AUDIOLINK</code> or <code>ALPASS_FILTEREDAUDIOLINK</code></li>
-<li>Brighten / Darken from <em>World Origin</em> or <em>Avatar Origin</em> using <code>ALPASS_AUDIOLINKHISTORY</code></li>
-<li>Lerp between two Colors from <em>World Origin</em> or <em>Avatar Origin</em> using <code>ALPASS_AUDIOLINKHISTORY</code></li>
-<li>Change Color Hue based off <code>ALPASS_CHRONOTENSITY</code></li>
-<li>Use a Theme Color using <code>ALPASS_THEME_COLOR0</code> / <code>ALPASS_THEME_COLOR1</code> / <code>ALPASS_THEME_COLOR2</code> / <code>ALPASS_THEME_COLOR3</code></li>
-<li>ColorChord strip from <em>World Origin</em> or <em>Avatar Origin</em> using <code>ALPASS_CCSTRIP</code></li>
+<li><code>ALPASS_AUDIOLINK</code>
+<ul>
+<li>Bass, Low, High, Treble</li>
+<li>History</li>
 </ul>
-<p><strong>For the Simulator:</strong></p>
+</li>
+<li><code>ALPASS_FILTEREDAUDIOLINK</code>
 <ul>
-<li>Attract / Repulse using <code>ALPASS_AUDIOLINK</code> or <code>ALPASS_FILTEREDAUDIOLINK</code></li>
-<li>Speed up / slow down the Attraction or / Repulsion using <code>ALPASS_AUDIOLINK</code> or <code>ALPASS_FILTEREDAUDIOLINK</code></li>
-<li>Shockwave Repulse using <code>ALPASS_AUDIOLINKHISTORY</code></li>
+<li>Bass, Low, High, Treble</li>
+<li>various degrees of smoothness</li>
 </ul>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="other-notes">Other Notes:<a href="#other-notes" class="hash-link" aria-label="Direct link to Other Notes:" title="Direct link to Other Notes:">​</a></h3>
+</li>
+<li><code>ALPASS_GENERALVU + uint2( 8, 0 )</code>
 <ul>
-<li>in addition to changing the color and strength, you could also change the size, rotation or more</li>
-<li>values like <code>ALPASS_AUDIOLINKHISTORY</code> or <code>ALPASS_CCSTRIP</code> could be used in combination with other planned features like <strong>Shockwave / Pulse Effects</strong> or <strong>Particle Chains / Trails</strong></li>
-<li>either have a separate audio link section in the settings or add a special audio link section to every place where it would make sense</li>
+<li>Intensity (RMS Left / Peak Left / RMS Right / Peak Right)</li>
+</ul>
+</li>
+<li><code>ALPASS_FILTEREDVU_INTENSITY</code>
+<ul>
+<li>Filtered Intensity (RMS Left / Peak Left / RMS Right / Peak Right)</li>
+</ul>
+</li>
+<li><code>ALPASS_AUTOCORRELATOR</code>
+<ul>
+<li>waveform which can be used in distance based weighting</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="color-values"><code>Color Values</code><a href="#color-values" class="hash-link" aria-label="Direct link to color-values" title="Direct link to color-values">​</a></h4>
+<ul>
+<li><code>ALPASS_THEME_COLOR0</code> - <code>ALPASS_THEME_COLOR3</code>
+<ul>
+<li>use as color</li>
+</ul>
+</li>
+<li><code>ALPASS_CCCOLORS</code>
+<ul>
+<li>different colors, but mostly 1-5 are okay</li>
+</ul>
+</li>
+<li><code>ALPASS_CCSTRIP</code>
+<ul>
+<li>used for coloring where all colors are represented to varying degree</li>
+</ul>
+</li>
+<li><code>ALPASS_CCLIGHTS</code>
+<ul>
+<li>used for coloring with 128 individual color sections of two separate themes, or 256 colors combined</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="time-values"><code>Time Values</code><a href="#time-values" class="hash-link" aria-label="Direct link to time-values" title="Direct link to time-values">​</a></h4>
+<ul>
+<li><code>ALPASS_GENERALVU_NETWORK_TIME</code>
+<ul>
+<li>use for time-based calculations</li>
+</ul>
+</li>
+<li><code>ALPASS_CHRONOTENSITY</code>
+<ul>
+<li>used for time based calculations where time should only progress while the audio is active</li>
+<li>Bass, Low, High, Treble</li>
+<li>different kinds of progression</li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="positional-values"><code>Positional Values</code><a href="#positional-values" class="hash-link" aria-label="Direct link to positional-values" title="Direct link to positional-values">​</a></h4>
+<ul>
+<li><code>AudioLinkGetAudioSourcePosition()</code>
+<ul>
+<li>use as reference point for distance based calculations</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="shader-settings">Shader Settings<a href="#shader-settings" class="hash-link" aria-label="Direct link to Shader Settings" title="Direct link to Shader Settings">​</a></h3>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="simulator">Simulator<a href="#simulator" class="hash-link" aria-label="Direct link to Simulator" title="Direct link to Simulator">​</a></h4>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Base Settings<!-- -->
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Sim Speed: <code>Scalar Values</code></li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Sim Scale: <code>Scalar Values</code></li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> (Sim Time : <code>Time Values</code>)</li>
+</ul>
+</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Forces - General<!-- -->
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Field Strength: <code>Scalar Values</code></li>
+</ul>
+</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Forces - Attraction<!-- -->
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Position: <code>Positional Values</code></li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Shape Scale: <code>Scalar Values</code></li>
+</ul>
+</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Forces - Directional<!-- -->
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Direction: <code>Positional Values</code></li>
+</ul>
+</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Forces - Turbulence<!-- -->
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> (Density: <code>Scalar Values</code> )</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> (Panning Scale: <code>Scalar Values</code>)</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Panning Time / Change Speed: <code>Time Values</code></li>
+</ul>
+</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Spawning<!-- -->
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Position Scale (Shape Texture, Sphere, Box): <code>Scalar Values</code></li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Velocity Multiplier: <code>Scalar Values</code></li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Age Multiplier: <code>Scalar Values</code></li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Lifetime Multiplier: <code>Scalar Values</code></li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Partial Respawn Progress: <code>Time Values</code></li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Inherit Movement Strength: <code>Scalar Values</code></li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Time Dependent Noise: <code>Time Values</code></li>
+</ul>
+</li>
+</ul>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="visualizer">Visualizer<a href="#visualizer" class="hash-link" aria-label="Direct link to Visualizer" title="Direct link to Visualizer">​</a></h4>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Base Settings<!-- -->
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Sim Speed: <code>Scalar Values</code></li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Sim Scale: <code>Scalar Values</code></li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> (Sim Time : <code>Time Values</code>)</li>
+</ul>
+</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Shape &amp; Size<!-- -->
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Line Length Limit: <code>Scalar Values</code></li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Line Length Multiplier: <code>Scalar Values</code></li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Line End Pos: <code>Positional Values</code></li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Size Multiplier: <code>Scalar Values</code></li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Flicker Time: <code>Time Values</code></li>
+</ul>
+</li>
+<li class="task-list-item"><input type="checkbox" disabled="" checked=""> <!-- --> Color Settings<!-- -->
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled="" checked=""> <!-- --> color mode: <code>Color Values</code>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled="" checked=""> <!-- --> Static/Pulse/Direction: replace individual colors with theme color or color chord when audio link is available</li>
+<li class="task-list-item"><input type="checkbox" disabled="" checked=""> <!-- --> Pulse/Cycle Time: use <code>Time Values</code> or <code>Scalar Values</code></li>
+</ul>
+</li>
+<li class="task-list-item"><input type="checkbox" disabled="" checked=""> <!-- --> Color Blend: Multiply / Replace / Add</li>
+<li class="task-list-item"><input type="checkbox" disabled="" checked=""> <!-- --> Hue Shift: <code>Time Values</code></li>
+<li class="task-list-item"><input type="checkbox" disabled="" checked=""> <!-- --> Control Brightness: <code>Scalar Values</code></li>
+</ul>
+</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Texture Settings<!-- -->
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Animation Time: <code>Time Values</code></li>
+</ul>
+</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Rotation Settings<!-- -->
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- --> Animation Time: <code>Time Values</code></li>
+</ul>
+</li>
+<li class="task-list-item"><input type="checkbox" disabled="" checked=""> <!-- --> General Settings<!-- -->
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled="" checked=""> <!-- --> effect distance</li>
+<li class="task-list-item"><input type="checkbox" disabled="" checked=""> <!-- --> reference points<!-- -->
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled="" checked=""> <!-- --> AL Source</li>
+<li class="task-list-item"><input type="checkbox" disabled="" checked=""> <!-- --> Simulator Position</li>
+<li class="task-list-item"><input type="checkbox" disabled="" checked=""> <!-- --> World Origin</li>
+<li class="task-list-item"><input type="checkbox" disabled="" checked=""> <!-- --> Particle Origin (Visualizer only)</li>
+</ul>
+</li>
+<li class="task-list-item"><input type="checkbox" disabled="" checked=""> <!-- --> smoothness (Audio Link and Intensity)</li>
+</ul>
+</li>
 </ul>
 <hr>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="shockwave--pulse-effects">Shockwave / Pulse Effects<a href="#shockwave--pulse-effects" class="hash-link" aria-label="Direct link to Shockwave / Pulse Effects" title="Direct link to Shockwave / Pulse Effects">​</a></h2>
