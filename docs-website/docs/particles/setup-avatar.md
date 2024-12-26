@@ -42,7 +42,7 @@ If you also want to freely change the position relative to the bone, you need to
 :::
 
 ### Default Setup
-Drag the "QP VRCFury Setup" prefab into your scene and then onto your Avatar's root object, FRCFury will automatically handle the rest.
+Drag the "QP VRCFury Setup" prefab into your scene and then onto your Avatar's root object, VRCFury will automatically handle the rest.
 
 ### Preset Setup
 If you want to use any combination of Presets, drag the "QP Preset Base" prefab from the `Presets` Folder into your scene and then onto your Avatar's root object.
