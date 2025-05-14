@@ -16,6 +16,27 @@
   }
 }
 
+.linkTree {
+  padding: 4rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.verticalLinks {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centers the links horizontally */
+  gap: 1rem; /* optional: adds space between the links */
+  font-size: 1.2; /* This will scale the buttons if they use 'em' */
+}
+
+.largeButton {
+  font-size: 2.0rem;    /* Increased font size */
+  padding: 0.25rem 2.5rem;      /* Reduced vertical padding and preserved horizontal padding */
+  width: 320px;                /* Fixed width for all buttons */
+}
+
 .buttons {
   display: flex;
   align-items: center;

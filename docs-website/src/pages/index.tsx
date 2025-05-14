@@ -21,13 +21,60 @@ function HomepageHeader() {
   );
 }
 
+function LinkTree() {
+  const {siteConfig} = useDocusaurusContext();
+  return (
+    <header className={clsx(styles.heroBanner)}>
+      <div className={clsx("container", styles.verticalLinks)}>
+        <Link 
+          to="https://discord.gg/Va5VPev" 
+          className={clsx("button", "button--primary", styles.largeButton)}
+          target="_blank" 
+          rel="noopener noreferrer"
+        >Discord</Link>
+        <Link 
+          to="http://www.patreon.com/quantumlot" 
+          className={clsx("button", "button--primary", styles.largeButton)}
+          target="_blank" 
+          rel="noopener noreferrer"
+        >Patreon</Link>
+        <Link 
+          to="https://www.youtube.com/@quantumlot" 
+          className={clsx("button", "button--primary", styles.largeButton)}
+          target="_blank" 
+          rel="noopener noreferrer"
+        >YouTube</Link>
+        <Link 
+          to="https://github.com/Link250" 
+          className={clsx("button", "button--primary", styles.largeButton)}
+          target="_blank" 
+          rel="noopener noreferrer"
+        >GitHub</Link>
+        <Link 
+          to="https://x.com/QuantumHeroLoT" 
+          className={clsx("button", "button--primary", styles.largeButton)}
+          target="_blank" 
+          rel="noopener noreferrer"
+        >X / Twitter</Link>
+        <Link 
+          to="https://www.instagram.com/quantum_lot/" 
+          className={clsx("button", "button--primary", styles.largeButton)}
+          target="_blank" 
+          rel="noopener noreferrer"
+        >Instagram</Link>
+      </div>
+    </header>
+  );
+}
+
 export default function Home(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Welcome to ${siteConfig.title}`}
+      title={`${siteConfig.title}`}
       description="Documentation of all my Projects and more.">
       <HomepageHeader />
+      <LinkTree />
     </Layout>
   );
 }
