@@ -2,10 +2,11 @@ import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
-import HomepageFeatures from '@site/src/components/HomepageFeatures';
 import Heading from '@theme/Heading';
 
 import styles from './index.module.css';
+import BgEffect from './backgroundEffect';
+import React from 'react';
 
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
@@ -22,9 +23,26 @@ function HomepageHeader() {
 }
 
 function LinkTree() {
-  const {siteConfig} = useDocusaurusContext();
+  const linkTreeRef = React.useRef<HTMLDivElement>(null);
+  
+  React.useEffect(() => {
+    const adjustHeight = () => {
+      if (!linkTreeRef.current) return;
+      
+      const windowHeight = window.innerHeight;
+      const linkTreeTop = linkTreeRef.current.getBoundingClientRect().top;
+      const availableHeight = windowHeight - linkTreeTop;
+      
+      linkTreeRef.current.style.minHeight = `${availableHeight}px`;
+    };
+    
+    adjustHeight();
+    window.addEventListener('resize', adjustHeight);
+    return () => window.removeEventListener('resize', adjustHeight);
+  }, []);
   return (
-    <header className={clsx(styles.heroBanner)}>
+    <header ref={linkTreeRef} className={clsx(styles.linkTree)}>
+      <BgEffect />
       <div className={clsx("container", styles.verticalLinks)}>
         <Link 
           to="https://discord.gg/Va5VPev" 
