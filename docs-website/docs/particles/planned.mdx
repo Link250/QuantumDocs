@@ -51,7 +51,7 @@ A feature can be in one of the following states:
 ---
 ## Audio Link
 **Tags:** <Tag name="Simulator" /> <Tag name="Visualizer" />  
-**Status:** <State name="Planned" />  
+**Status:** <State name="Done" />  
 
 The Audio Link feature will allow you to link audio data to various parameters in the simulator and visualizer. This will allow you to create more dynamic and interactive effects that react to the music that is playing in the world.  
 Both the simulator and visualizer could make use of this information in different ways.
@@ -97,66 +97,6 @@ Both the simulator and visualizer could make use of this information in differen
 
 - `AudioLinkGetAudioSourcePosition()`
     - use as reference point for distance based calculations
-
-### Shader Settings
-
-#### Simulator
-
-- [ ]  Base Settings
-    - [ ]  Sim Speed: `Scalar Values`
-    - [ ]  Sim Scale: `Scalar Values`
-    - [ ]  (Sim Time : `Time Values`)
-- [ ]  Forces - General
-    - [ ]  Field Strength: `Scalar Values`
-- [ ]  Forces - Attraction
-    - [ ]  Position: `Positional Values`
-    - [ ]  Shape Scale: `Scalar Values`
-- [ ]  Forces - Directional
-    - [ ]  Direction: `Positional Values`
-- [ ]  Forces - Turbulence
-    - [ ]  (Density: `Scalar Values` )
-    - [ ]  (Panning Scale: `Scalar Values`)
-    - [ ]  Panning Time / Change Speed: `Time Values`
-- [ ]  Spawning
-    - [ ]  Position Scale (Shape Texture, Sphere, Box): `Scalar Values`
-    - [ ]  Velocity Multiplier: `Scalar Values`
-    - [ ]  Age Multiplier: `Scalar Values`
-    - [ ]  Lifetime Multiplier: `Scalar Values`
-    - [ ]  Partial Respawn Progress: `Time Values`
-    - [ ]  Inherit Movement Strength: `Scalar Values`
-    - [ ]  Time Dependent Noise: `Time Values`
-
-#### Visualizer
-
-- [ ]  Base Settings
-    - [ ]  Sim Speed: `Scalar Values`
-    - [ ]  Sim Scale: `Scalar Values`
-    - [ ]  (Sim Time : `Time Values`)
-- [ ]  Shape & Size
-    - [ ]  Line Length Limit: `Scalar Values`
-    - [ ]  Line Length Multiplier: `Scalar Values`
-    - [ ]  Line End Pos: `Positional Values`
-    - [ ]  Size Multiplier: `Scalar Values`
-    - [ ]  Flicker Time: `Time Values`
-- [x]  Color Settings
-    - [x]  color mode: `Color Values`
-        - [x]  Static/Pulse/Direction: replace individual colors with theme color or color chord when audio link is available
-        - [x]  Pulse/Cycle Time: use `Time Values` or `Scalar Values`
-    - [x]  Color Blend: Multiply / Replace / Add
-    - [x]  Hue Shift: `Time Values`
-    - [x]  Control Brightness: `Scalar Values`
-- [ ]  Texture Settings
-    - [ ]  Animation Time: `Time Values`
-- [ ]  Rotation Settings
-    - [ ]  Animation Time: `Time Values`
-- [x]  General Settings
-    - [x]  effect distance
-    - [x]  reference points
-        - [x]  AL Source
-        - [x]  Simulator Position
-        - [x]  World Origin
-        - [x]  Particle Origin (Visualizer only)
-    - [x]  smoothness (Audio Link and Intensity)
 
 ---
 ## Shockwave / Pulse Effects
@@ -383,7 +323,7 @@ Turn everything into a component which can be added to your avatar like normal U
 ---
 ## Particle Sub-Systems
 **Tags:** <Tag name="Setup" />  
-**Status:** <State name="Idea" />  
+**Status:** <State name="Done" />  
 
 Make it possible to have multiple particle systems in the same setup.
 

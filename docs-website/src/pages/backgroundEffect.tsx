@@ -9,6 +9,8 @@ const BgEffect: React.FC = () => {
     if (!canvas) return;
 
     const resizeCanvas = () => {
+      if (canvas.clientWidth === canvas.width && canvas.clientHeight === canvas.height)
+        return; // No resize needed
       canvas.width = canvas.clientWidth;
       canvas.height = canvas.clientHeight;
     };

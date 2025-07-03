@@ -25,6 +25,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: auto; /* Allow natural height if content exceeds min-height */
+  margin-bottom: 0; /* Ensure no unexpected margin at bottom */
 }
 
 .verticalLinks {

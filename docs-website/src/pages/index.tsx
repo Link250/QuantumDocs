@@ -26,19 +26,50 @@ function LinkTree() {
   const linkTreeRef = React.useRef<HTMLDivElement>(null);
   
   React.useEffect(() => {
+    // Delay initial height calculation slightly to ensure all elements are rendered
+    setTimeout(() => adjustHeight(), 100);
+    
     const adjustHeight = () => {
       if (!linkTreeRef.current) return;
       
+      // Get viewport height
       const windowHeight = window.innerHeight;
-      const linkTreeTop = linkTreeRef.current.getBoundingClientRect().top;
-      const availableHeight = windowHeight - linkTreeTop;
       
-      linkTreeRef.current.style.minHeight = `${availableHeight}px`;
+      // Get position of the LinkTree from the top
+      const linkTreeRect = linkTreeRef.current.getBoundingClientRect();
+      const linkTreeTop = linkTreeRect.top + window.scrollY; // Account for scrolling
+      
+      // Get footer height (select the footer element appropriately)
+      const footer = document.querySelector('footer');
+      const footerHeight = footer ? footer.offsetHeight : 0;
+      
+      // Get the natural height of the content inside LinkTree (the buttons)
+      const linksContainer = linkTreeRef.current.querySelector(`.${styles.verticalLinks}`);
+      const contentHeight = linksContainer ? linksContainer.scrollHeight + 128 : 400; // Add padding
+      
+      // Calculate available height: viewport minus (navbar + top position + footer)
+      const availableHeight = windowHeight - linkTreeTop - footerHeight;
+      
+      // Use the greater of: content height or available height
+      const minHeight = Math.max(contentHeight, availableHeight);
+      
+      // Only update if there's a meaningful change to prevent recursive updates
+      const currentHeight = parseInt(linkTreeRef.current.style.minHeight || '0');
+      if (Math.abs(currentHeight - minHeight) > 0) {
+        linkTreeRef.current.style.minHeight = `${minHeight}px`;
+      }
     };
     
-    adjustHeight();
+    // Adjust on window resize events
     window.addEventListener('resize', adjustHeight);
-    return () => window.removeEventListener('resize', adjustHeight);
+    
+    // Don't adjust on scroll, as it can cause recursive issues
+    // window.addEventListener('scroll', adjustHeight);
+    
+    return () => {
+      window.removeEventListener('resize', adjustHeight);
+      // window.removeEventListener('scroll', adjustHeight);
+    };
   }, []);
   return (
     <header ref={linkTreeRef} className={clsx(styles.linkTree)}>
