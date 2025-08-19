@@ -49,56 +49,6 @@ A feature can be in one of the following states:
 :::
 
 ---
-## Audio Link
-**Tags:** <Tag name="Simulator" /> <Tag name="Visualizer" />  
-**Status:** <State name="Done" />  
-
-The Audio Link feature will allow you to link audio data to various parameters in the simulator and visualizer. This will allow you to create more dynamic and interactive effects that react to the music that is playing in the world.  
-Both the simulator and visualizer could make use of this information in different ways.
-
-### Audio Link Values
-
-#### `Scalar Values`
-
-- `ALPASS_AUDIOLINK`
-    - Bass, Low, High, Treble
-    - History
-- `ALPASS_FILTEREDAUDIOLINK`
-    - Bass, Low, High, Treble
-    - various degrees of smoothness
-- `ALPASS_GENERALVU + uint2( 8, 0 )`
-    - Intensity (RMS Left / Peak Left / RMS Right / Peak Right)
-- `ALPASS_FILTEREDVU_INTENSITY`
-    - Filtered Intensity (RMS Left / Peak Left / RMS Right / Peak Right)
-- `ALPASS_AUTOCORRELATOR`
-    - waveform which can be used in distance based weighting
-
-#### `Color Values`
-
-- `ALPASS_THEME_COLOR0` - `ALPASS_THEME_COLOR3`
-    - use as color
-- `ALPASS_CCCOLORS`
-    - different colors, but mostly 1-5 are okay
-- `ALPASS_CCSTRIP`
-    - used for coloring where all colors are represented to varying degree
-- `ALPASS_CCLIGHTS`
-    - used for coloring with 128 individual color sections of two separate themes, or 256 colors combined
-
-#### `Time Values`
-
-- `ALPASS_GENERALVU_NETWORK_TIME`
-    - use for time-based calculations
-- `ALPASS_CHRONOTENSITY`
-    - used for time based calculations where time should only progress while the audio is active
-    - Bass, Low, High, Treble
-    - different kinds of progression
-
-#### `Positional Values`
-
-- `AudioLinkGetAudioSourcePosition()`
-    - use as reference point for distance based calculations
-
----
 ## Shockwave / Pulse Effects
 **Tags:** <Tag name="Simulator" /> <Tag name="Visualizer" />  
 **Status:** <State name="Planned" />  

@@ -37,8 +37,13 @@ Quantum Particles are only visible to players who have you friended or who have 
 ---
 
 ### Missing Scripts in Prefabs
-- make sure your [VRChat SDKs](https://creators.vrchat.com/sdk/updating-the-sdk) are up to date, the minimum recommended version is 3.7.2
-- if you want to use the VRCFury prefabs, make sure [VRCFury](https://vrcfury.com/download) is up to date as well, the minimum recommended version is 1.1136.0
+- make sure your [VRChat SDKs](https://creators.vrchat.com/sdk/updating-the-sdk) are up to date, the minimum recommended version is 3.8.2
+- if you want to use the VRCFury prefabs, make sure [VRCFury](https://vrcfury.com/download) is up to date as well, the minimum recommended version is 1.1249.0
+
+---
+
+### Some Prefabs don't work correctly (Audio related ones, or "Trails" preset)
+- some presets require you to have [AudioLink](https://github.com/llealloo/audiolink/releases) installed in your project. (Tested with `AudioLink_2.1.0_minimal.unitypackage`)
 
 ---
 
@@ -55,7 +60,7 @@ Unity Particles are CPU based, which means they are calculated on the CPU and th
 
 ---
 
-### May i use the Quantum Particles on a commercial Avatar
+### May i use the Quantum Particles on a public or commercial Avatar
 
 If you are using the public free version then yes, if you are using the early access version then no.
 

@@ -5,7 +5,7 @@ sidebar_position: 2
 # Quantum Particles
 
 The Quantum Particles are a custom GPU Particle System for Unity, specialized for usage on VRChat Avatars.
-Both the free and early access versions are available on the [Discord Server](https://discord.gg/Va5VPev).
+You can download the latest version from the [Downloads](./downloads) page.
 
 While Quantum Particles are designed for VRChat Avatars, they can be used in any Unity project, but due to VRChat limitations and requirements, they use a setup which would be considered less optimal for other projects.
 A more Optimized version for VRChat Worlds is planned, but nothing outside of VRChat is planned at the moment.
