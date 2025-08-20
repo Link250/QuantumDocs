@@ -18,3 +18,7 @@ Quantum Particles only work on PC Avatars/Worlds! Quest and Android/iOS are not 
 
 If you want to gain early access to new features and updates, you can support me on [Patreon](https://www.patreon.com/QuantumLoT) for 5$.
 Make sure to link your Discord account to your Patreon account to get access to the exclusive channels on the [Discord Server](https://discord.gg/Va5VPev) where you can download the latest versions.
+
+
+## Example Avatars
+You can try out the Quantum Particles on [this example Avatars](https://vrchat.com/home/avatar/avtr_6906a7c0-61ea-4d49-af68-9f22c130ea07)
