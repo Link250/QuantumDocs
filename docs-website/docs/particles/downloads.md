@@ -9,14 +9,16 @@ If you want to gain early access to new features and updates, you can support me
 
 ## Latest Version
 
-### [QuantumParticles-v2.0.0](https://github.com/Link250/QuantumDocs/raw/refs/heads/source/docs-website/static/packages/QuantumParticles-v2.0.0.unitypackage)
+### [QuantumParticles-v2.0.1](https://github.com/Link250/QuantumDocs/raw/refs/heads/source/docs-website/static/packages/QuantumParticles-v2.0.1.unitypackage)
 
 ## Archive
 
 These files are only here for archival purposes and are not recommended for use in new projects.
-But, for example, if you have an older project that uses these versions, you can download them here.
+But, for example, if you have an older project which requires one of these versions, you can download them here.
 
 ### Quantum Particles
+
+#### [QuantumParticles-v2.0.0](https://github.com/Link250/QuantumDocs/raw/refs/heads/source/docs-website/static/packages/QuantumParticles-v2.0.0.unitypackage)
 
 #### [QuantumParticles-v1.0.1](https://github.com/Link250/QuantumDocs/raw/refs/heads/source/docs-website/static/packages/QuantumParticles-v1.0.1.unitypackage)
 
